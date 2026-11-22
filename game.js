@@ -137,9 +137,10 @@ class Game {
     };
     this.settings = this.loadSettings();
 
-    // Virtual Joystick Tracking Vector
+    // Virtual Joystick & D-Pad Pointer IDs for Multi-Touch
     this.joystickVector = { x: 0, y: 0 };
     this.joystickPointerId = null;
+    this.dpadPointerId = null;
 
     // Persistent Skin & High Score
     const savedSkinId = localStorage.getItem('meo-ne-gai-style') || 'tabby';
@@ -644,6 +645,7 @@ class Game {
     this.keyState = { up: false, down: false, left: false, right: false };
     this.dpadState = { up: false, down: false, left: false, right: false };
     this.resetJoystick();
+    this.dpadPointerId = null;
     if (this.keys) this.keys.clear();
     ['btnUp', 'btnDown', 'btnLeft', 'btnRight'].forEach(id => {
       const btn = document.getElementById(id);
@@ -747,8 +749,6 @@ class Game {
 
     // --- 2. Upgraded D-Pad (Multi-direction & Continuous Touch Slide) ---
     if (this.dpadContainer) {
-      let dpadPointerId = null;
-
       const updateDpadFromPoint = (clientX, clientY) => {
         const el = document.elementFromPoint(clientX, clientY);
         const targetBtn = el ? el.closest('.direction') : null;
@@ -768,21 +768,21 @@ class Game {
       const handleDpadStart = ev => {
         ev.preventDefault();
         sound.ensureContext();
-        dpadPointerId = ev.pointerId;
+        this.dpadPointerId = ev.pointerId;
         try { this.dpadContainer.setPointerCapture(ev.pointerId); } catch (_) {}
         updateDpadFromPoint(ev.clientX, ev.clientY);
         this.vibrate(15);
       };
 
       const handleDpadMove = ev => {
-        if (dpadPointerId === null || ev.pointerId !== dpadPointerId) return;
+        if (this.dpadPointerId === null || ev.pointerId !== this.dpadPointerId) return;
         ev.preventDefault();
         updateDpadFromPoint(ev.clientX, ev.clientY);
       };
 
       const handleDpadEnd = ev => {
-        if (ev && ev.pointerId !== undefined && dpadPointerId !== null && ev.pointerId !== dpadPointerId) return;
-        dpadPointerId = null;
+        if (ev && ev.pointerId !== undefined && this.dpadPointerId !== null && ev.pointerId !== this.dpadPointerId) return;
+        this.dpadPointerId = null;
         this.dpadState.up = false;
         this.dpadState.down = false;
         this.dpadState.left = false;
@@ -799,35 +799,48 @@ class Game {
       this.dpadContainer.addEventListener('pointercancel', handleDpadEnd);
     }
 
-    // Global pointer release so controls NEVER stay stuck
-    window.addEventListener('pointerup', () => {
-      this.resetJoystick();
-      this.dpadState.up = false;
-      this.dpadState.down = false;
-      this.dpadState.left = false;
-      this.dpadState.right = false;
-      ['btnUp', 'btnDown', 'btnLeft', 'btnRight'].forEach(id => {
-        const btn = document.getElementById(id);
-        if (btn) btn.classList.remove('pressed');
-      });
-    });
-    window.addEventListener('pointercancel', () => {
-      this.resetJoystick();
-      this.dpadState.up = false;
-      this.dpadState.down = false;
-      this.dpadState.left = false;
-      this.dpadState.right = false;
-      ['btnUp', 'btnDown', 'btnLeft', 'btnRight'].forEach(id => {
-        const btn = document.getElementById(id);
-        if (btn) btn.classList.remove('pressed');
-      });
+    // Global pointer release: ONLY release the specific control that matches the lifted finger!
+    // (Crucial: prevents lifting the Dash button from interrupting continuous Joystick or D-Pad movement)
+    window.addEventListener('pointerup', ev => {
+      if (this.joystickPointerId !== null && ev.pointerId === this.joystickPointerId) {
+        this.resetJoystick();
+      }
+      if (this.dpadPointerId !== null && ev.pointerId === this.dpadPointerId) {
+        this.dpadPointerId = null;
+        this.dpadState.up = false;
+        this.dpadState.down = false;
+        this.dpadState.left = false;
+        this.dpadState.right = false;
+        ['btnUp', 'btnDown', 'btnLeft', 'btnRight'].forEach(id => {
+          const btn = document.getElementById(id);
+          if (btn) btn.classList.remove('pressed');
+        });
+      }
     });
 
-    // Mobile Dash Button
+    window.addEventListener('pointercancel', ev => {
+      if (this.joystickPointerId !== null && ev.pointerId === this.joystickPointerId) {
+        this.resetJoystick();
+      }
+      if (this.dpadPointerId !== null && ev.pointerId === this.dpadPointerId) {
+        this.dpadPointerId = null;
+        this.dpadState.up = false;
+        this.dpadState.down = false;
+        this.dpadState.left = false;
+        this.dpadState.right = false;
+        ['btnUp', 'btnDown', 'btnLeft', 'btnRight'].forEach(id => {
+          const btn = document.getElementById(id);
+          if (btn) btn.classList.remove('pressed');
+        });
+      }
+    });
+
+    // Mobile Dash Button (Isolated multi-touch so tapping dash never interferes with direction controls)
     if (this.mobileDashBtn) {
       this.mobileDashBtn.addEventListener('focus', () => this.mobileDashBtn.blur());
       this.mobileDashBtn.addEventListener('pointerdown', ev => {
         ev.preventDefault();
+        ev.stopPropagation();
         sound.ensureContext();
         this.vibrate(25);
         if (this.gameState === 'playing') {
@@ -835,6 +848,14 @@ class Game {
         } else {
           this.startGame();
         }
+      });
+      this.mobileDashBtn.addEventListener('pointerup', ev => {
+        ev.preventDefault();
+        ev.stopPropagation();
+      });
+      this.mobileDashBtn.addEventListener('pointercancel', ev => {
+        ev.preventDefault();
+        ev.stopPropagation();
       });
     }
   }
