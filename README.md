@@ -97,8 +97,8 @@ git commit -m "feat: hoàn thiện game Mèo Né Gai nâng cấp toàn diện (B
 # 4. Đổi tên nhánh mặc định thành main
 git branch -M main
 
-# 5. Liên kết tới repository GitHub của bạn (thay URL bằng link repo thật)
-git remote add origin https://github.com/<tai-khoan-cua-ban>/<ten-repo>.git
+# 5. Liên kết tới repository GitHub của bạn
+git remote add origin https://github.com/1905nezuko-thao/Game-Meonegai.git
 
 # 6. Đẩy mã nguồn lên GitHub
 git push -u origin main
@@ -107,9 +107,9 @@ git push -u origin main
 ### Triển khai lên Vercel (Khuyên dùng - Đường link đẹp & siêu nhanh):
 1. Đăng nhập vào [vercel.com](https://vercel.com/) bằng tài khoản GitHub của bạn.
 2. Nhấn nút **Add New...** > chọn **Project**.
-3. Chọn kho lưu trữ `meo-ne-gai` và nhấn **Import**.
+3. Chọn kho lưu trữ `Game-Meonegai` và nhấn **Import**.
 4. Giữ nguyên toàn bộ cấu hình mặc định (dự án đã tích hợp sẵn file `vercel.json` tối ưu bảo mật & bộ nhớ đệm) > Nhấn **Deploy**.
-5. Sau 10 - 15 giây, trò chơi sẽ sẵn sàng tại địa chỉ `https://<ten-repo>.vercel.app`!
+5. Sau 10 - 15 giây, trò chơi sẽ sẵn sàng tại địa chỉ `https://game-meonegai.vercel.app`!
 
 ### Hoặc bật chơi trực tuyến miễn phí với GitHub Pages:
 1. Vào repository trên GitHub > bấm **Settings** (Cài đặt).
