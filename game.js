@@ -981,6 +981,7 @@ class Game {
 
     if (this.cat.hasShield) {
       this.cat.hasShield = false;
+      this.cat.invulnerableTimer = 1.0; // 1s bất tử khi vỡ khiên để tránh mất tim dồn dập
       sound.playShieldBreak();
       this.vibrate(30);
       this.shakeScreen(0.25, 12);
@@ -1607,23 +1608,42 @@ class Game {
       }
     }
 
-    // Boundary Spikes Collision (Immune during Dash and i-frame)
-    const minSafe = SPIKE_WALL_WIDTH + this.cat.radius + 4;
-    const maxSafe = CANVAS_SIZE - SPIKE_WALL_WIDTH - this.cat.radius - 4;
+    // Boundary Spikes Collision & Hard Arena Barrier
+    // Mép gai mở rộng 70px (48px viền tường tối + 22px răng cưa san hô đỏ)
+    const spikeDepth = 70;
+    const minSafe = spikeDepth + this.cat.radius + 2;
+    const maxSafe = CANVAS_SIZE - spikeDepth - this.cat.radius - 2;
 
-    if (!this.cat.isDashing) {
-      if (this.cat.x < minSafe || this.cat.x > maxSafe || this.cat.y < minSafe || this.cat.y > maxSafe) {
-        if (this.cat.invulnerableTimer <= 0) {
-          this.takeDamage('Gai tường');
-          // Push back cat inside safely
-          this.cat.x = Math.max(minSafe + 12, Math.min(maxSafe - 12, this.cat.x));
-          this.cat.y = Math.max(minSafe + 12, Math.min(maxSafe - 12, this.cat.y));
-        }
+    let hitSpikes = false;
+
+    // Chặn cứng không cho mèo lọt qua viền trái/phải
+    if (this.cat.x <= minSafe) {
+      hitSpikes = true;
+      this.cat.x = minSafe;
+    } else if (this.cat.x >= maxSafe) {
+      hitSpikes = true;
+      this.cat.x = maxSafe;
+    }
+
+    // Chặn cứng không cho mèo lọt qua viền trên/dưới
+    if (this.cat.y <= minSafe) {
+      hitSpikes = true;
+      this.cat.y = minSafe;
+    } else if (this.cat.y >= maxSafe) {
+      hitSpikes = true;
+      this.cat.y = maxSafe;
+    }
+
+    // Xử lý mất máu và đẩy lùi an toàn khi chạm gai (miễn nhiễm khi đang lướt)
+    if (hitSpikes) {
+      if (!this.cat.isDashing && this.cat.invulnerableTimer <= 0) {
+        this.takeDamage('Gai tường');
+        // Đẩy lùi mèo vào sâu trong sân đấu 20px để thoát khỏi rìa gai nhọn
+        if (this.cat.x <= minSafe + 2) this.cat.x = minSafe + 20;
+        if (this.cat.x >= maxSafe - 2) this.cat.x = maxSafe - 20;
+        if (this.cat.y <= minSafe + 2) this.cat.y = minSafe + 20;
+        if (this.cat.y >= maxSafe - 2) this.cat.y = maxSafe - 20;
       }
-    } else {
-      // Clamp inside arena so cat doesn't dash outside world
-      this.cat.x = Math.max(minSafe - 10, Math.min(maxSafe + 10, this.cat.x));
-      this.cat.y = Math.max(minSafe - 10, Math.min(maxSafe + 10, this.cat.y));
     }
 
     // Difficulty scaling & Hazard speed

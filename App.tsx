@@ -392,19 +392,28 @@ export default function App() {
         cat.x += dx * spd * dt;
         cat.y += dy * spd * dt;
 
-        // Boundaries
-        const minSafe = SPIKE_WALL_WIDTH + cat.radius + 4;
-        const maxSafe = CANVAS_SIZE - SPIKE_WALL_WIDTH - cat.radius - 4;
-        if (!cat.isDashing) {
-          if (cat.x < minSafe || cat.x > maxSafe || cat.y < minSafe || cat.y > maxSafe) {
-            if (cat.hasShield) {
-              cat.hasShield = false;
-              cat.x = Math.max(minSafe + 10, Math.min(maxSafe - 10, cat.x));
-              cat.y = Math.max(minSafe + 10, Math.min(maxSafe - 10, cat.y));
-              floatingTexts.push({ text: 'KHIÊN ĐỠ GAI!', x: cat.x, y: cat.y - 25, color: '#38bdf8', alpha: 1, vy: -50 });
-            } else {
-              onGameOver();
-            }
+        // Boundary Spikes Collision & Hard Arena Barrier
+        const spikeDepth = 70;
+        const minSafe = spikeDepth + cat.radius + 2;
+        const maxSafe = CANVAS_SIZE - spikeDepth - cat.radius - 2;
+
+        let hitSpikes = false;
+        if (cat.x <= minSafe) { hitSpikes = true; cat.x = minSafe; }
+        else if (cat.x >= maxSafe) { hitSpikes = true; cat.x = maxSafe; }
+
+        if (cat.y <= minSafe) { hitSpikes = true; cat.y = minSafe; }
+        else if (cat.y >= maxSafe) { hitSpikes = true; cat.y = maxSafe; }
+
+        if (hitSpikes && !cat.isDashing) {
+          if (cat.hasShield) {
+            cat.hasShield = false;
+            if (cat.x <= minSafe + 2) cat.x = minSafe + 20;
+            if (cat.x >= maxSafe - 2) cat.x = maxSafe - 20;
+            if (cat.y <= minSafe + 2) cat.y = minSafe + 20;
+            if (cat.y >= maxSafe - 2) cat.y = maxSafe - 20;
+            floatingTexts.push({ text: 'KHIÊN ĐỠ GAI!', x: cat.x, y: cat.y - 25, color: '#38bdf8', alpha: 1, vy: -50 });
+          } else {
+            onGameOver();
           }
         }
 
