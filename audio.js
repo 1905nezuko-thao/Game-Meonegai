@@ -458,6 +458,55 @@ class SoundEngine {
       this.bgmTimer = null;
     }
   }
+
+  // --- Map Stage Clear Fanfare (Level Up) ---
+  playMapClear() {
+    if (this.muted || !this.ctx) return;
+    const now = this.ctx.currentTime;
+    const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+    notes.forEach((freq, idx) => {
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(freq, now + idx * 0.1);
+      gain.gain.setValueAtTime(0, now + idx * 0.1);
+      gain.gain.linearRampToValueAtTime(0.3, now + idx * 0.1 + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.1 + 0.35);
+      osc.connect(gain);
+      gain.connect(this.sfxGain);
+      osc.start(now + idx * 0.1);
+      osc.stop(now + idx * 0.1 + 0.36);
+    });
+  }
+
+  // --- Grand 8-World Victory Fanfare (Star Awarded) ---
+  playVictoryFanfare() {
+    if (this.muted || !this.ctx) return;
+    const now = this.ctx.currentTime;
+    // Triumphant fanfare: G4, C5, E5, G5, F5, G5, C6 (Held)
+    const melody = [
+      { f: 392.00, t: 0.0, d: 0.15 },
+      { f: 523.25, t: 0.15, d: 0.15 },
+      { f: 659.25, t: 0.30, d: 0.15 },
+      { f: 783.99, t: 0.45, d: 0.35 },
+      { f: 698.46, t: 0.80, d: 0.18 },
+      { f: 783.99, t: 0.98, d: 0.22 },
+      { f: 1046.50, t: 1.20, d: 0.9 }
+    ];
+    melody.forEach(n => {
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'triangle';
+      osc.frequency.setValueAtTime(n.f, now + n.t);
+      gain.gain.setValueAtTime(0, now + n.t);
+      gain.gain.linearRampToValueAtTime(0.35, now + n.t + 0.03);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + n.t + n.d);
+      osc.connect(gain);
+      gain.connect(this.sfxGain);
+      osc.start(now + n.t);
+      osc.stop(now + n.t + n.d + 0.05);
+    });
+  }
 }
 
 const sound = new SoundEngine();

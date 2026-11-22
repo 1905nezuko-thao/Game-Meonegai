@@ -67,6 +67,122 @@ const CAT_SKINS = [
   }
 ];
 
+// 8 Thế giới / Vòng chơi theo mốc 800 điểm
+const STAGE_MAPS = [
+  {
+    stage: 1,
+    name: 'Nông trại',
+    icon: '🌾',
+    tag: 'VÒNG 1/8',
+    scoreReq: 0,
+    bgGrad: ['#fffbeb', '#fef3c7'],
+    gridColor: 'rgba(180, 83, 9, 0.08)',
+    wallColor: '#5c3a21',
+    spikeColor: '#b45309',
+    obstacleName: 'Bó rơm vàng',
+    obstacleType: 'haybale',
+    isDarknessMode: false
+  },
+  {
+    stage: 2,
+    name: 'Bãi cỏ',
+    icon: '🌿',
+    tag: 'VÒNG 2/8',
+    scoreReq: 800,
+    bgGrad: ['#f0fdf4', '#dcfce7'],
+    gridColor: 'rgba(21, 128, 61, 0.08)',
+    wallColor: '#14532d',
+    spikeColor: '#22c55e',
+    obstacleName: 'Nấm độc & Bụi gai rừng',
+    obstacleType: 'mushroom',
+    isDarknessMode: false
+  },
+  {
+    stage: 3,
+    name: 'Trên mặt biển',
+    icon: '🌊',
+    tag: 'VÒNG 3/8',
+    scoreReq: 1600,
+    bgGrad: ['#e0f2fe', '#bae6fd'],
+    gridColor: 'rgba(2, 132, 199, 0.08)',
+    wallColor: '#075985',
+    spikeColor: '#0284c7',
+    obstacleName: 'Phao cứu sinh & Lốc xoáy',
+    obstacleType: 'buoy',
+    isDarknessMode: false
+  },
+  {
+    stage: 4,
+    name: 'Đáy đại dương',
+    icon: '🐙',
+    tag: 'VÒNG 4/8',
+    scoreReq: 2400,
+    bgGrad: ['#0f172a', '#1e293b'],
+    gridColor: 'rgba(56, 189, 248, 0.12)',
+    wallColor: '#0b1120',
+    spikeColor: '#06b6d4',
+    obstacleName: 'Sứa điện phát sáng',
+    obstacleType: 'jellyfish',
+    isDarknessMode: false
+  },
+  {
+    stage: 5,
+    name: 'Thế giới kẹo ngọt',
+    icon: '🍭',
+    tag: 'VÒNG 5/8',
+    scoreReq: 3200,
+    bgGrad: ['#fff1f2', '#ffe4e6'],
+    gridColor: 'rgba(244, 63, 94, 0.08)',
+    wallColor: '#881337',
+    spikeColor: '#f43f5e',
+    obstacleName: 'Kẹo xoay & Donut đường',
+    obstacleType: 'candy',
+    isDarknessMode: false
+  },
+  {
+    stage: 6,
+    name: 'Vũ trụ',
+    icon: '🚀',
+    tag: 'VÒNG 6/8',
+    scoreReq: 4000,
+    bgGrad: ['#09090b', '#18181b'],
+    gridColor: 'rgba(168, 85, 247, 0.14)',
+    wallColor: '#1e1035',
+    spikeColor: '#a855f7',
+    obstacleName: 'Thiên thạch lửa rực cháy',
+    obstacleType: 'meteor',
+    isDarknessMode: false
+  },
+  {
+    stage: 7,
+    name: 'Thế giới khổng lồ',
+    icon: '🗿',
+    tag: 'VÒNG 7/8',
+    scoreReq: 4800,
+    bgGrad: ['#1c1917', '#292524'],
+    gridColor: 'rgba(234, 179, 8, 0.12)',
+    wallColor: '#451a03',
+    spikeColor: '#eab308',
+    obstacleName: 'Búa tạ khổng lồ & Cột thạch',
+    obstacleType: 'hammer',
+    isDarknessMode: false
+  },
+  {
+    stage: 8,
+    name: 'Toàn bóng tối',
+    icon: '🌑',
+    tag: 'VÒNG 8/8',
+    scoreReq: 5600,
+    bgGrad: ['#030307', '#090714'],
+    gridColor: 'rgba(239, 68, 68, 0.15)',
+    wallColor: '#11050a',
+    spikeColor: '#dc2626',
+    obstacleName: 'Mắt quỷ bóng đêm hư không',
+    obstacleType: 'shadowEye',
+    isDarknessMode: true
+  }
+];
+
 // Helper: Vẽ hình chữ nhật bo góc
 function drawRoundRect(ctx, x, y, width, height, radius) {
   ctx.beginPath();
@@ -116,6 +232,30 @@ class Game {
     this.bossHpTextEl = document.getElementById('bossHpText');
     this.bossHpFillEl = document.getElementById('bossHpFill');
     this.livesIconsContainer = document.getElementById('livesIconsContainer');
+
+    // Stage & Stars DOM Elements
+    this.stageBadgeEl = document.getElementById('stageBadge');
+    this.stageIconEl = document.getElementById('stageIcon');
+    this.stageTagEl = document.getElementById('stageTag');
+    this.stageNameEl = document.getElementById('stageName');
+    this.starsBoxEl = document.getElementById('starsBox');
+    this.starsValEl = document.getElementById('starsVal');
+    this.mapBannerEl = document.getElementById('mapBanner');
+    this.mapBannerIconEl = document.getElementById('mapBannerIcon');
+    this.mapBannerTitleEl = document.getElementById('mapBannerTitle');
+    this.victoryOverlayEl = document.getElementById('victoryOverlay');
+    this.vicTotalStarsEl = document.getElementById('vicTotalStars');
+    this.vicScoreEl = document.getElementById('vicScore');
+    this.continueEndlessBtn = document.getElementById('continueEndlessBtn');
+    this.restartCampaignBtn = document.getElementById('restartCampaignBtn');
+
+    // Stage Progression & Honorary Stars
+    this.stars = Number(localStorage.getItem('meo-ne-gai-stars') || 0);
+    if (this.starsValEl) this.starsValEl.textContent = `⭐ ${this.stars}`;
+    this.currentStage = 1;
+    this.currentMap = STAGE_MAPS[0];
+    this.bannerTimer = null;
+    this.victoryAwarded = false;
 
     // Settings Modal Elements
     this.settingsBtn = document.getElementById('settingsBtn');
@@ -288,6 +428,21 @@ class Game {
       };
     }
     this.applyControlModeUI();
+
+    // Victory Screen Action Buttons
+    if (this.continueEndlessBtn) {
+      this.continueEndlessBtn.onclick = () => {
+        if (this.victoryOverlayEl) this.victoryOverlayEl.classList.add('hidden');
+        sound.playMeow();
+        this.addFloatingText('CHẾ ĐỘ VÔ TẬN KÍCH HOẠT! 🚀', this.cat.x, this.cat.y - 35, '#fbbf24');
+      };
+    }
+    if (this.restartCampaignBtn) {
+      this.restartCampaignBtn.onclick = () => {
+        if (this.victoryOverlayEl) this.victoryOverlayEl.classList.add('hidden');
+        this.startGame();
+      };
+    }
   }
 
   vibrate(pattern) {
@@ -912,6 +1067,16 @@ class Game {
     this.newRecordTriggered = false;
     this.scoreValEl.textContent = '000';
 
+    // Reset 8-Stage Map Progression
+    this.currentStage = 1;
+    this.currentMap = STAGE_MAPS[0];
+    this.victoryAwarded = false;
+    if (this.stageIconEl) this.stageIconEl.textContent = this.currentMap.icon;
+    if (this.stageTagEl) this.stageTagEl.textContent = this.currentMap.tag;
+    if (this.stageNameEl) this.stageNameEl.textContent = this.currentMap.name;
+    if (this.mapBannerEl) this.mapBannerEl.classList.add('hidden');
+    if (this.victoryOverlayEl) this.victoryOverlayEl.classList.add('hidden');
+
     this.createHazards();
 
     this.pickups = [];
@@ -941,18 +1106,7 @@ class Game {
     else if (this.settings.difficulty === 'hard') speedScale = 1.25;
     else if (this.settings.difficulty === 'nightmare') speedScale = 1.5;
 
-    const palette = [
-      { color: '#8b5cf6', accent: '#c084fc' }, // Neon Purple
-      { color: '#06b6d4', accent: '#67e8f9' }, // Neon Cyan
-      { color: '#f59e0b', accent: '#fbbf24' }, // Neon Gold
-      { color: '#f43f5e', accent: '#fda4af' }, // Neon Ruby
-      { color: '#10b981', accent: '#6ee7b7' }, // Neon Emerald
-      { color: '#ec4899', accent: '#f472b6' }, // Neon Pink
-      { color: '#3b82f6', accent: '#93c5fd' }, // Neon Blue
-      { color: '#f97316', accent: '#fdba74' }, // Neon Orange
-      { color: '#eab308', accent: '#fde047' }, // Neon Yellow
-      { color: '#14b8a6', accent: '#5eead4' }, // Neon Teal
-    ];
+    const map = this.currentMap || STAGE_MAPS[0];
 
     this.hazards = [];
     for (let i = 0; i < count; i++) {
@@ -962,7 +1116,6 @@ class Game {
       const y = CANVAS_SIZE / 2 + Math.sin(angle) * dist - 28;
       const vx = (Math.cos(angle + Math.PI / 2) * 125 + (Math.random() - 0.5) * 35) * speedScale;
       const vy = (Math.sin(angle + Math.PI / 2) * 125 + (Math.random() - 0.5) * 35) * speedScale;
-      const pal = palette[i % palette.length];
 
       this.hazards.push({
         x, y,
@@ -970,10 +1123,120 @@ class Game {
         size: 50 + (i % 3) * 6,
         angle: i * 0.45,
         spinSpeed: (i % 2 === 0 ? 2.5 : -2.8) * speedScale,
-        color: pal.color,
-        accentColor: pal.accent
+        color: map.spikeColor,
+        obstacleType: map.obstacleType
       });
     }
+  }
+
+  // --- 8-Stage Map Progression Engine ---
+  advanceToStage(stageNum) {
+    if (this.currentStage === stageNum) return;
+    this.currentStage = stageNum;
+    this.currentMap = STAGE_MAPS[stageNum - 1] || STAGE_MAPS[0];
+
+    // Update Stage Badge in Header
+    if (this.stageIconEl) this.stageIconEl.textContent = this.currentMap.icon;
+    if (this.stageTagEl) this.stageTagEl.textContent = this.currentMap.tag;
+    if (this.stageNameEl) this.stageNameEl.textContent = this.currentMap.name;
+
+    // Morph existing hazards to new map's themed obstacles
+    this.hazards.forEach(h => {
+      h.color = this.currentMap.spikeColor;
+      h.obstacleType = this.currentMap.obstacleType;
+    });
+
+    // SFX & Haptics & Screen Shake
+    sound.playMapClear();
+    this.vibrate([100, 60, 140]);
+    this.shakeScreen(0.35, 12);
+
+    // Floating text notification
+    this.addFloatingText(`TIẾN VÀO ${this.currentMap.name.toUpperCase()}!`, this.cat.x, this.cat.y - 45, this.currentMap.spikeColor);
+
+    // Show Map Transition Banner
+    this.showMapBanner(this.currentMap);
+
+    // Celebratory Particle Burst
+    for (let i = 0; i < 35; i++) {
+      this.particles.push({
+        x: CANVAS_SIZE / 2 + (Math.random() - 0.5) * 200,
+        y: CANVAS_SIZE / 2 + (Math.random() - 0.5) * 200,
+        vx: (Math.random() - 0.5) * 320,
+        vy: (Math.random() - 0.5) * 320,
+        color: this.currentMap.spikeColor,
+        life: 1.6,
+        radius: 4.5
+      });
+    }
+  }
+
+  showMapBanner(map) {
+    if (!this.mapBannerEl) return;
+    if (this.mapBannerIconEl) this.mapBannerIconEl.textContent = map.icon;
+    if (this.mapBannerTitleEl) this.mapBannerTitleEl.textContent = `${map.tag}: ${map.name.toUpperCase()}`;
+
+    this.mapBannerEl.classList.remove('hidden');
+    void this.mapBannerEl.offsetWidth; // Force CSS reflow to re-trigger slide-in animation
+
+    if (this.bannerTimer) clearTimeout(this.bannerTimer);
+    this.bannerTimer = setTimeout(() => {
+      if (this.mapBannerEl) this.mapBannerEl.classList.add('hidden');
+    }, 3200);
+  }
+
+  checkVictoryCondition() {
+    if (this.score >= 6400 && !this.victoryAwarded) {
+      this.victoryAwarded = true;
+      this.stars += 1;
+      localStorage.setItem('meo-ne-gai-stars', String(this.stars));
+      if (this.starsValEl) this.starsValEl.textContent = `⭐ ${this.stars}`;
+      if (this.vicTotalStarsEl) this.vicTotalStarsEl.textContent = `⭐ ${this.stars}`;
+      if (this.vicScoreEl) this.vicScoreEl.textContent = String(this.score);
+
+      sound.playVictoryFanfare();
+      this.vibrate([150, 80, 200, 100, 300]);
+      this.shakeScreen(0.5, 18);
+
+      if (this.victoryOverlayEl) {
+        this.victoryOverlayEl.classList.remove('hidden');
+      }
+
+      // Grand Golden Confetti Explosion
+      for (let i = 0; i < 65; i++) {
+        this.particles.push({
+          x: CANVAS_SIZE / 2,
+          y: CANVAS_SIZE / 2,
+          vx: (Math.random() - 0.5) * 460,
+          vy: (Math.random() - 0.5) * 460,
+          color: ['#fbbf24', '#f59e0b', '#38bdf8', '#a855f7', '#ec4899', '#22c55e'][Math.floor(Math.random() * 6)],
+          life: 2.8,
+          radius: 5.5
+        });
+      }
+    }
+  }
+
+  drawDarknessOverlay(ctx) {
+    ctx.save();
+    const radInner = 75;
+    const radOuter = 230;
+    const grad = ctx.createRadialGradient(this.cat.x, this.cat.y, radInner, this.cat.x, this.cat.y, radOuter);
+    grad.addColorStop(0, 'rgba(3, 3, 7, 0)');
+    grad.addColorStop(0.55, 'rgba(3, 3, 7, 0.75)');
+    grad.addColorStop(1, 'rgba(3, 3, 7, 0.96)');
+
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+
+    // Subtle dark red flashlight ring
+    ctx.strokeStyle = 'rgba(239, 68, 68, 0.28)';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(this.cat.x, this.cat.y, radOuter, 0, Math.PI * 2);
+    ctx.stroke();
+
+    ctx.restore();
   }
 
   takeDamage(source) {
@@ -1483,6 +1746,15 @@ class Game {
     this.score = Math.floor(this.elapsedTime * 10) + this.bonusScore;
     this.scoreValEl.textContent = String(this.score).padStart(3, '0');
 
+    // 8-Stage Map Progression (Every 800 pts advances to next map)
+    const targetStage = Math.min(8, Math.floor(this.score / 800) + 1);
+    if (targetStage !== this.currentStage) {
+      this.advanceToStage(targetStage);
+    }
+
+    // Grand 8-Map Victory Check (At 6400+ points)
+    this.checkVictoryCondition();
+
     // New High Score fanfare check
     if (this.score > this.highScore && this.highScore > 50 && !this.newRecordTriggered) {
       this.newRecordTriggered = true;
@@ -1847,11 +2119,14 @@ class Game {
       ctx.translate(shakeX, shakeY);
     }
 
-    // Background Gradient
+    // Background Gradient (Dynamic according to 8 maps)
     const bgGradient = ctx.createLinearGradient(0, 0, CANVAS_SIZE, CANVAS_SIZE);
     if (this.cat.slowMoTimer > 0) {
       bgGradient.addColorStop(0, '#e0f2fe');
       bgGradient.addColorStop(1, '#ede9fe');
+    } else if (this.currentMap && this.currentMap.bgGrad) {
+      bgGradient.addColorStop(0, this.currentMap.bgGrad[0]);
+      bgGradient.addColorStop(1, this.currentMap.bgGrad[1]);
     } else {
       bgGradient.addColorStop(0, '#f7f0ff');
       bgGradient.addColorStop(1, '#dff8f5');
@@ -1859,8 +2134,8 @@ class Game {
     ctx.fillStyle = bgGradient;
     ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
 
-    // Floor Grid
-    ctx.strokeStyle = 'rgba(45, 48, 71, 0.055)';
+    // Floor Grid (Dynamic color per map)
+    ctx.strokeStyle = (this.currentMap && this.currentMap.gridColor) ? this.currentMap.gridColor : 'rgba(45, 48, 71, 0.055)';
     ctx.lineWidth = 1;
     for (let p = SPIKE_WALL_WIDTH; p < CANVAS_SIZE - SPIKE_WALL_WIDTH; p += 48) {
       ctx.beginPath();
@@ -1917,6 +2192,11 @@ class Game {
       this.cat.isDashing
     );
 
+    // Darkness Mode Fog-of-War Spotlight (Stage 8: Thế giới toàn bóng tối)
+    if (this.currentMap && this.currentMap.isDarknessMode) {
+      this.drawDarknessOverlay(ctx);
+    }
+
     // Draw Floating Texts
     this.drawFloatingTexts(ctx);
 
@@ -1926,16 +2206,22 @@ class Game {
   drawSpikes(ctx) {
     const w = SPIKE_WALL_WIDTH;
     const C = CANVAS_SIZE;
+    const map = this.currentMap || STAGE_MAPS[0];
 
-    // Outer Dark Wall Borders
-    ctx.fillStyle = '#17182b';
+    // Outer Dark Wall Borders (styled per map)
+    ctx.fillStyle = map.wallColor || '#17182b';
     ctx.fillRect(0, 0, C, w);
     ctx.fillRect(0, C - w, C, w);
     ctx.fillRect(0, 0, w, C);
     ctx.fillRect(C - w, 0, w, C);
 
-    // Red Coral Spikes
-    ctx.fillStyle = '#ff4f64';
+    // Wall border accent stroke
+    ctx.strokeStyle = map.spikeColor || '#ff4f64';
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(w, w, C - 2 * w, C - 2 * w);
+
+    // Themed Spikes
+    ctx.fillStyle = map.spikeColor || '#ff4f64';
     for (let t = w + 12; t < C - w; t += 36) {
       // Top wall
       ctx.beginPath();
@@ -2127,23 +2413,297 @@ class Game {
       ctx.translate(h.x + h.size / 2, h.y + h.size / 2);
       ctx.rotate(h.angle);
 
-      // Drop shadow
-      ctx.fillStyle = 'rgba(29, 28, 53, 0.18)';
-      drawRoundRect(ctx, -h.size / 2 + 5, -h.size / 2 + 7, h.size, h.size, 13);
+      const s = h.size;
+      const type = h.obstacleType || 'haybale';
 
-      // Main Box
-      ctx.fillStyle = h.color;
-      drawRoundRect(ctx, -h.size / 2, -h.size / 2, h.size, h.size, 13);
+      if (type === 'haybale') {
+        // --- 1. Nông trại: Bó rơm vàng óng cuộn tròn ---
+        // Shadow
+        ctx.fillStyle = 'rgba(74, 44, 23, 0.22)';
+        ctx.beginPath();
+        ctx.arc(4, 6, s / 2, 0, Math.PI * 2);
+        ctx.fill();
 
-      // Top Glass Highlight
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.35)';
-      drawRoundRect(ctx, -h.size / 2 + 8, -h.size / 2 + 8, h.size - 16, 10, 5);
+        // Haybale body
+        ctx.fillStyle = '#f59e0b';
+        ctx.beginPath();
+        ctx.arc(0, 0, s / 2, 0, Math.PI * 2);
+        ctx.fill();
 
-      // Inner Symbol / Core
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
-      ctx.beginPath();
-      ctx.arc(0, 0, 5, 0, Math.PI * 2);
-      ctx.fill();
+        // Straw texture rings
+        ctx.strokeStyle = '#d97706';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.arc(0, 0, s / 2 - 6, 0, Math.PI * 2);
+        ctx.stroke();
+
+        ctx.strokeStyle = '#b45309';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(0, 0, s / 2 - 14, 0, Math.PI * 2);
+        ctx.stroke();
+
+        // Straw spokes
+        ctx.strokeStyle = '#fef3c7';
+        ctx.lineWidth = 2;
+        for (let a = 0; a < 8; a++) {
+          const ang = (Math.PI / 4) * a;
+          ctx.beginPath();
+          ctx.moveTo(Math.cos(ang) * 4, Math.sin(ang) * 4);
+          ctx.lineTo(Math.cos(ang) * (s / 2 - 3), Math.sin(ang) * (s / 2 - 3));
+          ctx.stroke();
+        }
+
+        // Center tied red knot
+        ctx.fillStyle = '#ef4444';
+        ctx.beginPath();
+        ctx.arc(0, 0, 5, 0, Math.PI * 2);
+        ctx.fill();
+
+      } else if (type === 'mushroom') {
+        // --- 2. Bãi cỏ: Cây nấm độc tán đỏ chấm bi trắng ---
+        // Shadow
+        ctx.fillStyle = 'rgba(20, 83, 45, 0.25)';
+        ctx.beginPath();
+        ctx.ellipse(3, 5, s / 2, s / 3, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Mushroom Red Cap
+        ctx.fillStyle = '#ef4444';
+        ctx.beginPath();
+        ctx.arc(0, -2, s / 2, Math.PI, 0, false);
+        ctx.closePath();
+        ctx.fill();
+
+        // White spots on mushroom cap
+        ctx.fillStyle = '#ffffff';
+        [[-s / 4, -s / 4], [0, -s / 3], [s / 4, -s / 4], [-s / 6, -s / 8], [s / 6, -s / 8]].forEach(([dx, dy]) => {
+          ctx.beginPath();
+          ctx.arc(dx, dy, 3.5, 0, Math.PI * 2);
+          ctx.fill();
+        });
+
+        // Mushroom stem
+        ctx.fillStyle = '#fef08a';
+        drawRoundRect(ctx, -s / 6, -2, s / 3, s / 2.5, 4);
+
+        // Toxic green spores orbiting
+        ctx.fillStyle = '#22c55e';
+        for (let i = 0; i < 4; i++) {
+          const sporeAng = h.angle * 2 + (Math.PI / 2) * i;
+          const sporeX = Math.cos(sporeAng) * (s / 2 + 5);
+          const sporeY = Math.sin(sporeAng) * (s / 2 + 5);
+          ctx.beginPath();
+          ctx.arc(sporeX, sporeY, 3, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+      } else if (type === 'buoy') {
+        // --- 3. Trên mặt biển: Phao cứu sinh tròn sọc trắng đỏ xoay ---
+        // Shadow
+        ctx.fillStyle = 'rgba(2, 132, 199, 0.25)';
+        ctx.beginPath();
+        ctx.arc(4, 5, s / 2, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Outer white ring
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.arc(0, 0, s / 2, 0, Math.PI * 2);
+        ctx.fill();
+
+        // 4 Red Stripes
+        ctx.fillStyle = '#ef4444';
+        for (let i = 0; i < 4; i++) {
+          ctx.beginPath();
+          ctx.moveTo(0, 0);
+          ctx.arc(0, 0, s / 2, (Math.PI / 2) * i - 0.28, (Math.PI / 2) * i + 0.28);
+          ctx.closePath();
+          ctx.fill();
+        }
+
+        // Inner hollow hole
+        ctx.fillStyle = '#38bdf8';
+        ctx.beginPath();
+        ctx.arc(0, 0, s / 4, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Water ripple ring
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.8)';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(0, 0, s / 4, 0, Math.PI * 2);
+        ctx.stroke();
+
+      } else if (type === 'jellyfish') {
+        // --- 4. Đáy đại dương: Sứa điện phát sáng neon ---
+        // Glow
+        ctx.shadowColor = '#06b6d4';
+        ctx.shadowBlur = 12;
+
+        // Jellyfish Bell (dome)
+        const domeGrad = ctx.createRadialGradient(0, -4, 2, 0, -4, s / 2);
+        domeGrad.addColorStop(0, '#cffafe');
+        domeGrad.addColorStop(0.6, '#06b6d4');
+        domeGrad.addColorStop(1, '#0e7490');
+        ctx.fillStyle = domeGrad;
+        ctx.beginPath();
+        ctx.arc(0, -4, s / 2 - 2, Math.PI, 0, false);
+        ctx.closePath();
+        ctx.fill();
+
+        // Electric tentacles dangling
+        ctx.shadowBlur = 0;
+        ctx.strokeStyle = '#67e8f9';
+        ctx.lineWidth = 2.5;
+        for (let i = -2; i <= 2; i++) {
+          const tx = i * 6;
+          const wav = Math.sin(h.angle * 3 + i) * 6;
+          ctx.beginPath();
+          ctx.moveTo(tx, -2);
+          ctx.quadraticCurveTo(tx + wav, s / 4, tx - wav / 2, s / 2);
+          ctx.stroke();
+        }
+
+        // Bioluminescent Core
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.arc(0, -8, 4, 0, Math.PI * 2);
+        ctx.fill();
+
+      } else if (type === 'candy') {
+        // --- 5. Thế giới kẹo ngọt: Kẹo mút xoắn ốc hồng pastel ---
+        // Shadow
+        ctx.fillStyle = 'rgba(136, 19, 55, 0.22)';
+        ctx.beginPath();
+        ctx.arc(4, 5, s / 2, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Candy Base Pink
+        ctx.fillStyle = '#f43f5e';
+        ctx.beginPath();
+        ctx.arc(0, 0, s / 2, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Spiral candy swirls
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        for (let r = 2; r < s / 2 - 2; r += 0.8) {
+          const theta = r * 0.45;
+          const cx = Math.cos(theta) * r;
+          const cy = Math.sin(theta) * r;
+          if (r === 2) ctx.moveTo(cx, cy);
+          else ctx.lineTo(cx, cy);
+        }
+        ctx.stroke();
+
+        // Sugary sparkles
+        ctx.fillStyle = '#fbcfe8';
+        for (let i = 0; i < 4; i++) {
+          const sa = (Math.PI / 2) * i + h.angle;
+          ctx.beginPath();
+          ctx.arc(Math.cos(sa) * (s / 3), Math.sin(sa) * (s / 3), 2.5, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+      } else if (type === 'meteor') {
+        // --- 6. Vũ trụ: Thiên thạch lửa rực cháy ---
+        ctx.shadowColor = '#f97316';
+        ctx.shadowBlur = 14;
+
+        // Rocky irregular polygon
+        ctx.fillStyle = '#7c3aed';
+        ctx.beginPath();
+        const numPts = 8;
+        for (let i = 0; i < numPts; i++) {
+          const a = (Math.PI * 2 / numPts) * i;
+          const r = (s / 2 - 4) + ((i % 2 === 0) ? 4 : -4);
+          const px = Math.cos(a) * r;
+          const py = Math.sin(a) * r;
+          if (i === 0) ctx.moveTo(px, py);
+          else ctx.lineTo(px, py);
+        }
+        ctx.closePath();
+        ctx.fill();
+
+        // Fiery molten veins
+        ctx.shadowBlur = 0;
+        ctx.fillStyle = '#f97316';
+        ctx.beginPath();
+        ctx.arc(-4, -4, 6, 0, Math.PI * 2);
+        ctx.arc(6, 4, 4.5, 0, Math.PI * 2);
+        ctx.arc(-2, 7, 3.5, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Core
+        ctx.fillStyle = '#fef08a';
+        ctx.beginPath();
+        ctx.arc(-4, -4, 3, 0, Math.PI * 2);
+        ctx.fill();
+
+      } else if (type === 'hammer') {
+        // --- 7. Thế giới khổng lồ: Búa tạ titan & Khối đá cổ ---
+        // Shadow
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
+        drawRoundRect(ctx, -s / 2 + 5, -s / 2 + 7, s, s, 10);
+
+        // Heavy dark iron stone
+        ctx.fillStyle = '#292524';
+        drawRoundRect(ctx, -s / 2, -s / 2, s, s, 10);
+
+        // Gold Runic engravings
+        ctx.strokeStyle = '#eab308';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(-s / 3, 0);
+        ctx.lineTo(s / 3, 0);
+        ctx.moveTo(0, -s / 3);
+        ctx.lineTo(0, s / 3);
+        ctx.stroke();
+
+        // Corner iron bolts
+        ctx.fillStyle = '#facc15';
+        [[-s / 3, -s / 3], [s / 3, -s / 3], [-s / 3, s / 3], [s / 3, s / 3]].forEach(([bx, by]) => {
+          ctx.beginPath();
+          ctx.arc(bx, by, 3, 0, Math.PI * 2);
+          ctx.fill();
+        });
+
+      } else if (type === 'shadowEye') {
+        // --- 8. Thế giới toàn bóng tối: Mắt quỷ hư không rực sáng ---
+        ctx.shadowColor = '#dc2626';
+        ctx.shadowBlur = 16;
+
+        ctx.fillStyle = '#0a0a0f';
+        ctx.beginPath();
+        ctx.arc(0, 0, s / 2, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Red sclera
+        ctx.fillStyle = '#dc2626';
+        ctx.beginPath();
+        ctx.ellipse(0, 0, s / 2 - 5, s / 3, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Slit Pupil
+        ctx.shadowBlur = 0;
+        ctx.fillStyle = '#000000';
+        ctx.beginPath();
+        ctx.ellipse(0, 0, 3, s / 3.2, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Eye reflection gleam
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.arc(-4, -4, 2.5, 0, Math.PI * 2);
+        ctx.fill();
+
+      } else {
+        // Fallback default
+        ctx.fillStyle = h.color;
+        drawRoundRect(ctx, -s / 2, -s / 2, s, s, 12);
+      }
 
       ctx.restore();
     });

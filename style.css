@@ -73,6 +73,72 @@ body {
   font-size: clamp(26px, 4vw, 36px);
   font-weight: 800;
   line-height: 1.1;
+  margin: 0;
+}
+
+.brand-title-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* Dynamic Stage Badge */
+.stage-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, rgba(116, 92, 245, 0.12), rgba(167, 139, 250, 0.22));
+  border: 1px solid rgba(116, 92, 245, 0.35);
+  border-radius: 14px;
+  padding: 5px 12px;
+  box-shadow: 0 2px 8px rgba(116, 92, 245, 0.1);
+  transition: all 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+
+.stage-badge:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(116, 92, 245, 0.2);
+}
+
+.stage-icon {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.stage-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.stage-tag {
+  font-size: 8px;
+  font-weight: 800;
+  color: #745cf5;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.stage-name {
+  font-size: 13px;
+  font-weight: 800;
+  color: #25263d;
+  line-height: 1.15;
+}
+
+/* Stars Score Box */
+.stars-box {
+  background: linear-gradient(135deg, #fffbeb, #fef3c7) !important;
+  border: 1px solid #fde68a !important;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.18);
+}
+
+.stars-box span {
+  color: #b45309 !important;
+}
+
+.stars-box strong {
+  color: #d97706 !important;
 }
 
 .header-actions {
@@ -1483,4 +1549,203 @@ kbd {
 .primary-btn:hover {
   background: #5c48d8;
   transform: translateY(-1px);
+}
+
+/* =========================================================
+   Map Transition Banner & Victory Overlay
+   ========================================================= */
+.map-banner {
+  position: absolute;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 80;
+  pointer-events: none;
+  animation: bannerSlideInOut 3.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.map-banner.hidden {
+  display: none;
+}
+
+.map-banner-pill {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: rgba(18, 16, 38, 0.92);
+  border: 2px solid #745cf5;
+  border-radius: 40px;
+  padding: 10px 24px;
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5), 0 0 24px rgba(116, 92, 245, 0.5);
+  backdrop-filter: blur(8px);
+}
+
+.map-banner-icon {
+  font-size: 32px;
+  line-height: 1;
+  animation: bounceBannerIcon 0.8s infinite alternate;
+}
+
+.map-banner-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.map-banner-sub {
+  font-size: 9px;
+  font-weight: 800;
+  color: #a78bfa;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.map-banner-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: 0.04em;
+}
+
+@keyframes bannerSlideInOut {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -20px) scale(0.9);
+  }
+  15% {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+  85% {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -25px) scale(0.95);
+  }
+}
+
+@keyframes bounceBannerIcon {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-4px); }
+}
+
+/* Victory Overlay (8 Worlds Clear) */
+.victory-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 8, 25, 0.88);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 120;
+  padding: 16px;
+  animation: fadeInOverlay 0.4s ease;
+}
+
+.victory-overlay.hidden {
+  display: none;
+}
+
+.victory-card {
+  background: linear-gradient(145deg, #1f1b3c, #141128);
+  border: 2px solid #f59e0b;
+  border-radius: 28px;
+  padding: 30px 24px;
+  width: min(440px, 94%);
+  text-align: center;
+  color: #fff;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 30px rgba(245, 158, 11, 0.35);
+  animation: popInCard 0.45s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+
+.victory-trophy {
+  font-size: 54px;
+  margin-bottom: 8px;
+  animation: floatTrophy 2s ease-in-out infinite alternate;
+}
+
+.victory-badge {
+  display: inline-block;
+  background: rgba(245, 158, 11, 0.2);
+  border: 1px solid rgba(245, 158, 11, 0.5);
+  color: #fbbf24;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  padding: 4px 14px;
+  border-radius: 20px;
+  margin-bottom: 12px;
+}
+
+.victory-card h2 {
+  font-size: 24px;
+  font-weight: 900;
+  margin: 0 0 10px;
+  color: #fff;
+  text-shadow: 0 2px 10px rgba(245, 158, 11, 0.4);
+}
+
+.victory-card p {
+  font-size: 13px;
+  line-height: 1.6;
+  color: #cbd5e1;
+  margin: 0 0 18px;
+}
+
+.gold-highlight {
+  color: #fbbf24;
+  font-weight: 800;
+}
+
+.victory-stats {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.vic-stat {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.vic-stat span {
+  font-size: 10px;
+  color: #94a3b8;
+  font-weight: 700;
+}
+
+.vic-stat strong {
+  font-size: 18px;
+  color: #38bdf8;
+  font-weight: 800;
+}
+
+.victory-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+@keyframes floatTrophy {
+  0% { transform: translateY(0) scale(1); }
+  100% { transform: translateY(-8px) scale(1.08); }
+}
+
+@keyframes popInCard {
+  0% { transform: scale(0.85); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes fadeInOverlay {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 }

@@ -22,8 +22,18 @@
       <!-- Topbar -->
       <header class="topbar">
         <div class="brand">
-          <p class="eyebrow">THỬ THÁCH PHẢN XẠ · PHIÊN BẢN NÂNG CẤP</p>
-          <h1>Mèo né gai</h1>
+          <p class="eyebrow">THỬ THÁCH PHẢN XẠ · CHIẾN DỊCH 8 THẾ GIỚI</p>
+          <div class="brand-title-row">
+            <h1>Mèo né gai</h1>
+            <!-- Dynamic Stage Badge -->
+            <div class="stage-badge" id="stageBadge" title="Vòng chơi hiện tại">
+              <span class="stage-icon" id="stageIcon">🌾</span>
+              <div class="stage-info">
+                <span class="stage-tag" id="stageTag">VÒNG 1/8</span>
+                <strong class="stage-name" id="stageName">Nông trại</strong>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div class="header-actions">
@@ -55,6 +65,11 @@
 
           <!-- Scoreboard -->
           <div class="scoreboard">
+            <!-- Stars Earned Badge -->
+            <div class="score-box stars-box" id="starsBox" title="Ngôi sao danh dự tích lũy sau khi hoàn thành 8 vòng chiến dịch">
+              <span>Sao danh dự</span>
+              <strong id="starsVal">⭐ 0</strong>
+            </div>
             <div class="score-box">
               <span>Điểm</span>
               <strong id="scoreVal">000</strong>
@@ -109,6 +124,44 @@
           </div>
           <div class="boss-hp-bar-bg">
             <div class="boss-hp-bar-fill" id="bossHpFill"></div>
+          </div>
+        </div>
+
+        <!-- Map Transition Banner -->
+        <div class="map-banner hidden" id="mapBanner">
+          <div class="map-banner-pill">
+            <span class="map-banner-icon" id="mapBannerIcon">🌾</span>
+            <div class="map-banner-text">
+              <span class="map-banner-sub">TIẾN VÀO THẾ GIỚI MỚI!</span>
+              <h3 class="map-banner-title" id="mapBannerTitle">VÒNG 1: NÔNG TRẠI</h3>
+            </div>
+          </div>
+        </div>
+
+        <!-- Grand 8-Map Victory Overlay -->
+        <div class="victory-overlay hidden" id="victoryOverlay">
+          <div class="victory-card">
+            <div class="victory-trophy">🏆</div>
+            <span class="victory-badge">⭐ ĐẠI KHẢI HOÀN 8 THẾ GIỚI ⭐</span>
+            <h2>CHIẾN TÍCH HUY HOÀNG!</h2>
+            <p>
+              Bạn đã xuất sắc vượt qua toàn bộ <strong>8 thế giới đầy gai góc</strong> từ Nông trại đến Thế giới bóng tối và nhận được
+              <strong class="gold-highlight">+1 NGÔI SAO DANH DỰ ⭐</strong>!
+            </p>
+            <div class="victory-stats">
+              <div class="vic-stat">
+                <span>Tổng sao sở hữu</span>
+                <strong id="vicTotalStars">⭐ 1</strong>
+              </div>
+              <div class="vic-stat">
+                <span>Điểm đạt được</span>
+                <strong id="vicScore">6400</strong>
+              </div>
+            </div>
+            <div class="victory-actions">
+              <button type="button" id="continueEndlessBtn" class="primary-btn">Tiếp tục chơi vô tận 🚀</button>
+              <button type="button" id="restartCampaignBtn" class="secondary-btn">Chơi lại từ Vòng 1 🔄</button>
+            </div>
           </div>
         </div>
 
