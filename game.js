@@ -1173,6 +1173,9 @@ class Game {
 
   showMapBanner(map) {
     if (!this.mapBannerEl) return;
+    // Don't show transition banner if victory screen is already open
+    if (this.victoryOverlayEl && !this.victoryOverlayEl.classList.contains('hidden')) return;
+
     if (this.mapBannerIconEl) this.mapBannerIconEl.textContent = map.icon;
     if (this.mapBannerTitleEl) this.mapBannerTitleEl.textContent = `${map.tag}: ${map.name.toUpperCase()}`;
 
@@ -1193,6 +1196,9 @@ class Game {
       if (this.starsValEl) this.starsValEl.textContent = `⭐ ${this.stars}`;
       if (this.vicTotalStarsEl) this.vicTotalStarsEl.textContent = `⭐ ${this.stars}`;
       if (this.vicScoreEl) this.vicScoreEl.textContent = String(this.score);
+
+      // Hide map transition banner when victory modal opens to prevent overlap
+      if (this.mapBannerEl) this.mapBannerEl.classList.add('hidden');
 
       sound.playVictoryFanfare();
       this.vibrate([150, 80, 200, 100, 300]);
@@ -1881,40 +1887,47 @@ class Game {
     }
 
     // Boundary Spikes Collision & Hard Arena Barrier
-    // Mép gai mở rộng 70px (48px viền tường tối + 22px răng cưa san hô đỏ)
-    const spikeDepth = 70;
-    const minSafe = spikeDepth + this.cat.radius + 2;
-    const maxSafe = CANVAS_SIZE - spikeDepth - this.cat.radius - 2;
+    // Kích thước thực tế của sprite mèo tính từ tâm (x, y):
+    // - Đỉnh tai mèo: vươn lên trên 31px (y - 31)
+    // - Đáy chân & bóng mèo: vươn xuống dưới 36px (y + 36)
+    // - Mép trái (tai / râu): vươn sang trái 25px (x - 25)
+    // - Mép phải (đuôi / râu): vươn sang phải 34px (x + 34)
+    // Tường gai bao quanh: 48px viền tường + 22px chóp gai = 70px từ mép canvas.
+    const minSafeX = 70 + 25 + 6;                  // 101px
+    const maxSafeX = (CANVAS_SIZE - 70) - 34 - 6;  // 610px
+    const minSafeY = 70 + 31 + 6;                  // 107px
+    const maxSafeY = (CANVAS_SIZE - 70) - 36 - 8;  // 606px (chặn cứng mép dưới, tuyệt đối không lọt chân/bóng ra ngoài)
 
     let hitSpikes = false;
 
-    // Chặn cứng không cho mèo lọt qua viền trái/phải
-    if (this.cat.x <= minSafe) {
+    // 1. Chặn cứng tức thời (Hard Clamping): Bất kể đang lướt hay bất tử, mèo KHÔNG THỂ vượt qua biên an toàn
+    if (this.cat.x <= minSafeX) {
       hitSpikes = true;
-      this.cat.x = minSafe;
-    } else if (this.cat.x >= maxSafe) {
+      this.cat.x = minSafeX;
+    } else if (this.cat.x >= maxSafeX) {
       hitSpikes = true;
-      this.cat.x = maxSafe;
+      this.cat.x = maxSafeX;
     }
 
-    // Chặn cứng không cho mèo lọt qua viền trên/dưới
-    if (this.cat.y <= minSafe) {
+    if (this.cat.y <= minSafeY) {
       hitSpikes = true;
-      this.cat.y = minSafe;
-    } else if (this.cat.y >= maxSafe) {
+      this.cat.y = minSafeY;
+    } else if (this.cat.y >= maxSafeY) {
       hitSpikes = true;
-      this.cat.y = maxSafe;
+      this.cat.y = maxSafeY;
     }
 
-    // Xử lý mất máu và đẩy lùi an toàn khi chạm gai (miễn nhiễm khi đang lướt)
+    // 2. Phản hồi va chạm khi chạm rìa gai:
     if (hitSpikes) {
+      // Đẩy lùi mèo an toàn vào sâu trong sân đấu 24px để thoát khỏi rìa gai nhọn
+      if (this.cat.x <= minSafeX) this.cat.x = minSafeX + 24;
+      if (this.cat.x >= maxSafeX) this.cat.x = maxSafeX - 24;
+      if (this.cat.y <= minSafeY) this.cat.y = minSafeY + 24;
+      if (this.cat.y >= maxSafeY) this.cat.y = maxSafeY - 24;
+
+      // Xử lý mất máu (miễn nhiễm khi đang lướt hoặc trong thời gian i-frame)
       if (!this.cat.isDashing && this.cat.invulnerableTimer <= 0) {
         this.takeDamage('Gai tường');
-        // Đẩy lùi mèo vào sâu trong sân đấu 20px để thoát khỏi rìa gai nhọn
-        if (this.cat.x <= minSafe + 2) this.cat.x = minSafe + 20;
-        if (this.cat.x >= maxSafe - 2) this.cat.x = maxSafe - 20;
-        if (this.cat.y <= minSafe + 2) this.cat.y = minSafe + 20;
-        if (this.cat.y >= maxSafe - 2) this.cat.y = maxSafe - 20;
       }
     }
 

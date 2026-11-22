@@ -1552,11 +1552,11 @@ kbd {
 }
 
 /* =========================================================
-   Map Transition Banner & Victory Overlay
+   Map Transition Banner & Victory Overlay (Bright & High Contrast)
    ========================================================= */
 .map-banner {
   position: absolute;
-  top: 80px;
+  top: 75px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 80;
@@ -1565,23 +1565,23 @@ kbd {
 }
 
 .map-banner.hidden {
-  display: none;
+  display: none !important;
 }
 
 .map-banner-pill {
   display: flex;
   align-items: center;
-  gap: 14px;
-  background: rgba(18, 16, 38, 0.92);
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.98);
   border: 2px solid #745cf5;
   border-radius: 40px;
-  padding: 10px 24px;
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5), 0 0 24px rgba(116, 92, 245, 0.5);
-  backdrop-filter: blur(8px);
+  padding: 8px 22px;
+  box-shadow: 0 10px 28px rgba(116, 92, 245, 0.28), 0 2px 8px rgba(0, 0, 0, 0.08);
+  backdrop-filter: blur(10px);
 }
 
 .map-banner-icon {
-  font-size: 32px;
+  font-size: 28px;
   line-height: 1;
   animation: bounceBannerIcon 0.8s infinite alternate;
 }
@@ -1594,23 +1594,23 @@ kbd {
 .map-banner-sub {
   font-size: 9px;
   font-weight: 800;
-  color: #a78bfa;
+  color: #745cf5;
   letter-spacing: 0.15em;
   text-transform: uppercase;
 }
 
 .map-banner-title {
   margin: 0;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 900;
-  color: #ffffff;
-  letter-spacing: 0.04em;
+  color: #1e1b4b;
+  letter-spacing: 0.02em;
 }
 
 @keyframes bannerSlideInOut {
   0% {
     opacity: 0;
-    transform: translate(-50%, -20px) scale(0.9);
+    transform: translate(-50%, -18px) scale(0.92);
   }
   15% {
     opacity: 1;
@@ -1622,7 +1622,7 @@ kbd {
   }
   100% {
     opacity: 0;
-    transform: translate(-50%, -25px) scale(0.95);
+    transform: translate(-50%, -20px) scale(0.95);
   }
 }
 
@@ -1635,43 +1635,44 @@ kbd {
 .victory-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(10, 8, 25, 0.88);
-  backdrop-filter: blur(8px);
+  background: rgba(15, 12, 35, 0.65);
+  backdrop-filter: blur(10px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 120;
   padding: 16px;
-  animation: fadeInOverlay 0.4s ease;
+  animation: fadeInOverlay 0.35s ease;
 }
 
 .victory-overlay.hidden {
-  display: none;
+  display: none !important;
 }
 
 .victory-card {
-  background: linear-gradient(145deg, #1f1b3c, #141128);
-  border: 2px solid #f59e0b;
+  background: linear-gradient(150deg, #ffffff 0%, #fffdf5 60%, #fef9c3 100%);
+  border: 3px solid #f59e0b;
   border-radius: 28px;
-  padding: 30px 24px;
+  padding: 28px 24px;
   width: min(440px, 94%);
   text-align: center;
-  color: #fff;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 30px rgba(245, 158, 11, 0.35);
+  color: #1e293b;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.28), 0 0 35px rgba(245, 158, 11, 0.35);
   animation: popInCard 0.45s cubic-bezier(0.18, 0.89, 0.32, 1.28);
 }
 
 .victory-trophy {
-  font-size: 54px;
-  margin-bottom: 8px;
+  font-size: 56px;
+  margin-bottom: 6px;
+  line-height: 1;
   animation: floatTrophy 2s ease-in-out infinite alternate;
 }
 
 .victory-badge {
   display: inline-block;
-  background: rgba(245, 158, 11, 0.2);
-  border: 1px solid rgba(245, 158, 11, 0.5);
-  color: #fbbf24;
+  background: #fef3c7;
+  border: 1px solid #fde047;
+  color: #b45309;
   font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.1em;
@@ -1684,55 +1685,94 @@ kbd {
   font-size: 24px;
   font-weight: 900;
   margin: 0 0 10px;
-  color: #fff;
-  text-shadow: 0 2px 10px rgba(245, 158, 11, 0.4);
+  color: #1e1b4b;
+  letter-spacing: -0.02em;
 }
 
 .victory-card p {
   font-size: 13px;
   line-height: 1.6;
-  color: #cbd5e1;
+  color: #475569;
   margin: 0 0 18px;
 }
 
 .gold-highlight {
-  color: #fbbf24;
-  font-weight: 800;
+  color: #b45309;
+  font-weight: 900;
 }
 
 .victory-stats {
   display: flex;
   gap: 12px;
-  margin-bottom: 22px;
+  margin-bottom: 20px;
 }
 
 .vic-stat {
   flex: 1;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
   border-radius: 14px;
-  padding: 10px;
+  padding: 10px 8px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
 }
 
 .vic-stat span {
-  font-size: 10px;
-  color: #94a3b8;
+  font-size: 11px;
+  color: #64748b;
   font-weight: 700;
 }
 
 .vic-stat strong {
-  font-size: 18px;
-  color: #38bdf8;
-  font-weight: 800;
+  font-size: 20px;
+  color: #745cf5;
+  font-weight: 900;
+}
+
+#vicTotalStars {
+  color: #d97706 !important;
 }
 
 .victory-actions {
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.victory-actions .primary-btn {
+  background: linear-gradient(135deg, #745cf5, #6366f1);
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 800;
+  padding: 13px;
+  border-radius: 14px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(116, 92, 245, 0.4);
+  transition: transform 0.16s, box-shadow 0.16s;
+}
+
+.victory-actions .primary-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(116, 92, 245, 0.5);
+}
+
+.victory-actions .secondary-btn {
+  background: #f1f5f9;
+  color: #334155;
+  border: 1.5px solid #cbd5e1;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 11px;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: background 0.16s;
+}
+
+.victory-actions .secondary-btn:hover {
+  background: #e2e8f0;
 }
 
 @keyframes floatTrophy {
