@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Mèo né gai - Nâng cấp phản xạ & Kỹ năng</title>
+  <meta name="description" content="Trò chơi sinh tồn phản xạ 2D: Điều khiển mèo né gai, chướng ngại vật neon, đấu Boss đại chiến, ăn cá thưởng và kích hoạt kỹ năng lướt cực đã!" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🐱</text></svg>" />
+  <meta name="theme-color" content="#745cf5" />
+  <!-- Open Graph / Meta chia sẻ -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Mèo né gai - Nâng cấp phản xạ & Kỹ năng" />
+  <meta property="og:description" content="Trò chơi sinh tồn phản xạ 2D: Điều khiển mèo né gai, chướng ngại vật neon, đấu Boss đại chiến, ăn cá hồi & kích hoạt kỹ năng lướt cực đã!" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="game-shell">
+    <section class="game-panel" aria-label="Mèo né gai">
+      <!-- Topbar -->
+      <header class="topbar">
+        <div class="brand">
+          <p class="eyebrow">THỬ THÁCH PHẢN XẠ · PHIÊN BẢN NÂNG CẤP</p>
+          <h1>Mèo né gai</h1>
+        </div>
+
+        <div class="header-actions">
+          <!-- Settings Options Button -->
+          <button type="button" id="settingsBtn" class="settings-btn" aria-label="Bảng tùy chọn cài đặt" title="Bảng tùy chọn cài đặt">
+            <span class="settings-icon">⚙️</span>
+            <span class="settings-text">Tùy chọn</span>
+          </button>
+
+          <!-- Sound Toggle Button -->
+          <button type="button" id="soundToggleBtn" class="sound-toggle-btn" aria-label="Bật/Tắt âm thanh" title="Bật/Tắt âm thanh">
+            <span class="sound-icon">🔊</span>
+            <span class="sound-text">Âm thanh</span>
+          </button>
+
+          <!-- Fullscreen Toggle Button -->
+          <button type="button" id="fullscreenBtn" class="fullscreen-btn" aria-label="Toàn màn hình" title="Bật/Tắt toàn màn hình">
+            <span class="fs-icon">⛶</span>
+            <span class="fs-text">Toàn màn hình</span>
+          </button>
+
+          <!-- Cat Skin Picker -->
+          <div class="color-picker" aria-label="Chọn kiểu mèo">
+            <span id="currentSkinLabel">Kiểu mèo · Mèo mướp vàng</span>
+            <div class="color-options" id="skinOptionsContainer">
+              <!-- Dynamically populated buttons -->
+            </div>
+          </div>
+
+          <!-- Scoreboard -->
+          <div class="scoreboard">
+            <div class="score-box">
+              <span>Điểm</span>
+              <strong id="scoreVal">000</strong>
+            </div>
+            <div class="score-box">
+              <span>Kỷ lục</span>
+              <strong id="highScoreVal">000</strong>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- Game Arena Canvas Container -->
+      <div class="game-area" id="gameArea">
+        <canvas id="gameCanvas" width="720" height="720" aria-label="Khu vực chơi game"></canvas>
+
+        <!-- In-game HUD Badges -->
+        <div class="hud-overlay" id="hudOverlay">
+          <!-- Left: Lives Hearts & Dash -->
+          <div class="hud-left-group">
+            <div class="lives-hud" id="livesHud" title="Số tim còn lại">
+              <span class="lives-label">TIM</span>
+              <div class="lives-icons" id="livesIconsContainer">
+                <span class="heart active">❤️</span>
+                <span class="heart active">❤️</span>
+                <span class="heart active">❤️</span>
+              </div>
+            </div>
+
+            <!-- Dash Cooldown Badge -->
+            <div class="dash-hud" id="dashHud">
+              <div class="dash-icon-box">⚡</div>
+              <div class="dash-info">
+                <span class="dash-label">LƯỚT (SPACE)</span>
+                <div class="dash-bar-bg">
+                  <div class="dash-bar-fill" id="dashBarFill"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Active Powerup Badges -->
+          <div class="active-powerups" id="activePowerups"></div>
+        </div>
+
+        <!-- Boss Battle HUD (Appears at 600+ score) -->
+        <div class="boss-hud hidden" id="bossHud">
+          <div class="boss-hud-header">
+            <span class="boss-badge">⚠️ ĐẠI BOSS</span>
+            <span class="boss-name" id="bossName">CHÓ ROBOT CYBER (LV.MAX)</span>
+            <span class="boss-hp-text" id="bossHpText">600 / 600</span>
+          </div>
+          <div class="boss-hp-bar-bg">
+            <div class="boss-hp-bar-fill" id="bossHpFill"></div>
+          </div>
+        </div>
+
+        <!-- Overlays (Ready / Game Over) -->
+        <div class="game-overlay" id="gameOverlay">
+          <div class="overlay-card" id="overlayCard">
+            <div class="cat-mark" id="overlayCatMark" aria-hidden="true">
+              <span></span>
+            </div>
+            <p class="overlay-label" id="overlayLabel">SẴN SÀNG CHƯA?</p>
+            <h2 id="overlayTitle">Đừng chạm vào gai!</h2>
+            <p id="overlayDesc">
+              Di chuyển chú mèo, né tránh các khối lập phương neon, ăn cá hồi & pate để tăng điểm, và nhấn <strong>Space</strong> để lướt né đòn!
+            </p>
+
+            <div class="overlay-actions">
+              <button type="button" id="startBtn" class="start-btn">
+                <span id="startBtnText">Bắt đầu chơi</span>
+                <span aria-hidden="true">→</span>
+              </button>
+              <button type="button" id="overlaySettingsBtn" class="overlay-settings-btn" title="Mở bảng tùy chọn cài đặt">
+                <span>⚙️</span> Tùy chọn
+              </button>
+            </div>
+            <small id="overlayHint">Nhấn Enter hoặc phím cách để bắt đầu</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer & Mobile Controls -->
+      <footer class="controls">
+        <div class="hint">
+          <span class="hint-icon" aria-hidden="true">⚡</span>
+          <div>
+            <strong>Mẹo cao thủ</strong>
+            <p>Nhặt 🐟 +50đ, 🥫 +100đ, 🛡️ Khiên bảo hộ. Nhấn <strong>Space / Nút Lướt</strong> để né trong gang tấc!</p>
+          </div>
+        </div>
+
+        <!-- Mobile Touch Controls -->
+        <div class="mobile-controls-wrapper" id="mobileControlsWrapper">
+          <!-- Left Control: Joystick or D-Pad -->
+          <div class="mobile-ctrl-left">
+            <!-- Virtual Joystick (Analog 360°) -->
+            <div class="joystick-container" id="joystickContainer" aria-label="Cần gạt ảo Analog">
+              <div class="joystick-base" id="joystickBase">
+                <div class="joystick-knob" id="joystickKnob"></div>
+              </div>
+            </div>
+
+            <!-- D-Pad (Classic 4-Way Cross) -->
+            <div class="dpad hidden" id="dpadContainer" aria-label="Điều khiển hướng 4 chiều">
+              <button class="direction direction-up" id="btnUp" aria-label="Di chuyển lên"><span>↑</span></button>
+              <button class="direction direction-left" id="btnLeft" aria-label="Di chuyển trái"><span>↑</span></button>
+              <button class="direction direction-down" id="btnDown" aria-label="Di chuyển xuống"><span>↑</span></button>
+              <button class="direction direction-right" id="btnRight" aria-label="Di chuyển phải"><span>↑</span></button>
+            </div>
+          </div>
+
+          <!-- Middle Switcher Pill -->
+          <div class="mobile-ctrl-mid">
+            <button type="button" id="ctrlModeToggleBtn" class="ctrl-mode-toggle" title="Đổi giữa Cần gạt và Phím chữ thập">
+              <span id="ctrlModeIcon">🕹️</span>
+              <span id="ctrlModeText">Cần gạt</span>
+            </button>
+          </div>
+
+          <!-- Right Control: Dash Button -->
+          <div class="mobile-ctrl-right">
+            <button type="button" class="mobile-dash-btn" id="mobileDashBtn" aria-label="Kích hoạt lướt">
+              <span class="dash-btn-icon">⚡</span>
+              <span>LƯỚT</span>
+            </button>
+          </div>
+        </div>
+
+        <p class="keyboard-hint">
+          Di chuyển: <kbd>WASD</kbd> hoặc <kbd>← ↑ ↓ →</kbd> · Kỹ năng: <kbd>Space</kbd> / <kbd>Shift</kbd> (Lướt)
+        </p>
+      </footer>
+    </section>
+
+    <!-- Settings Modal Backdrop -->
+    <div class="settings-modal-backdrop hidden" id="settingsModal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+      <div class="settings-modal-card">
+        <div class="settings-header">
+          <div class="settings-title-group">
+            <span class="settings-badge">TÙY BIẾN GAMEPLAY</span>
+            <h2 id="settingsTitle">⚙️ Bảng Tùy Chọn Trò Chơi</h2>
+          </div>
+          <button type="button" id="closeSettingsBtn" class="close-modal-btn" aria-label="Đóng">✕</button>
+        </div>
+
+        <div class="settings-body">
+          <!-- 1. Số lượng tim (Mạng sống) -->
+          <div class="setting-group">
+            <div class="setting-group-header">
+              <span class="setting-icon">❤️</span>
+              <div>
+                <h3>1. Số Lượng Tim (Mạng Sống)</h3>
+                <p>Mỗi lần chạm gai/đạn mất 1 tim (có 1.6s chớp nháy bất tử để tháo chạy)</p>
+              </div>
+            </div>
+            <div class="setting-options-row" id="livesPresetGroup">
+              <button type="button" class="opt-btn" data-val="1">1 Tim <span>(1-Hit KO)</span></button>
+              <button type="button" class="opt-btn active" data-val="3">3 Tim <span>(Tiêu chuẩn)</span></button>
+              <button type="button" class="opt-btn" data-val="5">5 Tim <span>(Thư giãn)</span></button>
+              <button type="button" class="opt-btn" data-val="custom">Tùy chỉnh</button>
+            </div>
+            <div class="custom-slider-row" id="customLivesContainer" style="display: none;">
+              <label for="livesSlider">Chọn số tim: <strong id="livesSliderVal">3</strong> ❤️</label>
+              <input type="range" id="livesSlider" min="1" max="9" step="1" value="3" />
+            </div>
+          </div>
+
+          <!-- 2. Độ khó (Chướng ngại vật & Số lượng Boss) -->
+          <div class="setting-group">
+            <div class="setting-group-header">
+              <span class="setting-icon">⚡</span>
+              <div>
+                <h3>2. Độ Khó (Chướng Ngại Vật & Số Boss)</h3>
+                <p>Mật độ khối lập phương neon xoay tròn và số lượng Đại Boss cùng xuất hiện</p>
+              </div>
+            </div>
+            <div class="setting-options-grid" id="difficultyPresetGroup">
+              <button type="button" class="diff-card" data-diff="easy">
+                <span class="diff-badge easy">🟢 Dễ</span>
+                <strong>Thư giãn</strong>
+                <small>2 Khối neon · 1 Boss (400 HP)</small>
+              </button>
+              <button type="button" class="diff-card active" data-diff="normal">
+                <span class="diff-badge normal">🟡 Vừa</span>
+                <strong>Tiêu chuẩn</strong>
+                <small>3 Khối neon · 1 Boss (600 HP)</small>
+              </button>
+              <button type="button" class="diff-card" data-diff="hard">
+                <span class="diff-badge hard">🔴 Khó</span>
+                <strong>Thử thách</strong>
+                <small>5 Khối neon · 2 Boss (Song Boss) 🔥</small>
+              </button>
+              <button type="button" class="diff-card" data-diff="nightmare">
+                <span class="diff-badge nightmare">🟣 Ác mộng</span>
+                <strong>Cao thủ</strong>
+                <small>7 Khối neon · 3 Boss (Đại loạn chiến) 💥</small>
+              </button>
+            </div>
+
+            <!-- Tùy chỉnh chi tiết chướng ngại vật & Boss -->
+            <div class="custom-detail-box">
+              <div class="custom-slider-row">
+                <label for="hazardsSlider">Số lượng chướng ngại vật: <strong id="hazardsSliderVal">3</strong> khối neon</label>
+                <input type="range" id="hazardsSlider" min="2" max="10" step="1" value="3" />
+              </div>
+              <div class="custom-slider-row">
+                <label>Số lượng Boss cùng xuất trận:</label>
+                <div class="boss-count-buttons" id="bossCountGroup">
+                  <button type="button" class="mini-btn active" data-count="1">1 Boss</button>
+                  <button type="button" class="mini-btn" data-count="2">2 Boss (Song Đấu)</button>
+                  <button type="button" class="mini-btn" data-count="3">3 Boss (Hỗn Chiến)</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Thời gian Boss xuất hiện -->
+          <div class="setting-group">
+            <div class="setting-group-header">
+              <span class="setting-icon">⏱️</span>
+              <div>
+                <h3>3. Thời Gian Boss Xuất Hiện (Spawn)</h3>
+                <p>Thời điểm còi báo động vang lên và Mèo tự động trang bị súng Plasma</p>
+              </div>
+            </div>
+            <div class="setting-options-row" id="bossSpawnPresetGroup">
+              <button type="button" class="opt-btn" data-time="15">15 giây <span>(Bắn ngay!)</span></button>
+              <button type="button" class="opt-btn" data-time="30">30 giây <span>(Sớm)</span></button>
+              <button type="button" class="opt-btn active" data-time="60">60 giây <span>(Tiêu chuẩn)</span></button>
+              <button type="button" class="opt-btn" data-time="90">90 giây <span>(Sống dai)</span></button>
+            </div>
+            <div class="custom-slider-row">
+              <label for="bossSpawnSlider">Kéo thời gian tự do: <strong id="bossSpawnSliderVal">60</strong> giây (~<span id="bossScoreEquiv">600</span> điểm)</label>
+              <input type="range" id="bossSpawnSlider" min="10" max="150" step="5" value="60" />
+            </div>
+          </div>
+
+          <!-- 4. Tùy chọn di động & Cảm ứng -->
+          <div class="setting-group">
+            <div class="setting-group-header">
+              <span class="setting-icon">📱</span>
+              <div>
+                <h3>4. Tùy Chọn Di Động & Cảm Ứng</h3>
+                <p>Kiểu điều khiển và hiệu ứng rung phản hồi trên điện thoại / máy tính bảng</p>
+              </div>
+            </div>
+            <div class="setting-options-row" id="mobileCtrlPresetGroup">
+              <button type="button" class="opt-btn active" data-ctrl="joystick">
+                🕹️ Cần gạt <span>(Analog 360°)</span>
+              </button>
+              <button type="button" class="opt-btn" data-ctrl="dpad">
+                🎛️ Phím chữ thập <span>(D-Pad 4 chiều)</span>
+              </button>
+            </div>
+            <div class="setting-options-row" id="hapticPresetGroup">
+              <button type="button" class="opt-btn active" data-haptic="on">
+                📳 Rung phản hồi <span>(Bật Haptics)</span>
+              </button>
+              <button type="button" class="opt-btn" data-haptic="off">
+                📴 Tắt rung <span>(Tiết kiệm pin)</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-footer">
+          <button type="button" id="resetDefaultsBtn" class="secondary-btn">🔄 Mặc định</button>
+          <button type="button" id="saveSettingsBtn" class="primary-btn">💾 Áp dụng & Đóng</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="audio.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
