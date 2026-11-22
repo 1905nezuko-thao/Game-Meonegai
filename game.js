@@ -183,6 +183,146 @@ const STAGE_MAPS = [
   }
 ];
 
+// Danh sách 8 Đại Boss tương ứng với 8 Thế giới
+const STAGE_BOSSES = [
+  {
+    stage: 1,
+    type: 'scarecrow',
+    name: 'QUÁI VẬT NGƯỜI RƠM',
+    tag: 'BOSS VÒNG 1: NÔNG TRẠI',
+    icon: '🌾🎃',
+    bodyColor: '#92400e',
+    accentColor: '#f59e0b',
+    bulletColor: '#f59e0b',
+    eyeColor: '#ef4444',
+    radius: 46,
+    baseHp: 450,
+    attackInterval: 4.8,
+    shootInterval: 3.5,
+    bulletCount: 7,
+    title: 'Ác mộng cánh đồng lúa mì'
+  },
+  {
+    stage: 2,
+    type: 'flower',
+    name: 'QUÁI VẬT BÔNG HOA',
+    tag: 'BOSS VÒNG 2: BÃI CỎ',
+    icon: '🌸🌻',
+    bodyColor: '#15803d',
+    accentColor: '#ec4899',
+    bulletColor: '#22c55e',
+    eyeColor: '#a855f7',
+    radius: 46,
+    baseHp: 520,
+    attackInterval: 4.5,
+    shootInterval: 3.2,
+    bulletCount: 8,
+    title: 'Đóa hoa ăn thịt khổng lồ'
+  },
+  {
+    stage: 3,
+    type: 'squid',
+    name: 'MỰC KHỔNG LỒ KRAKEN',
+    tag: 'BOSS VÒNG 3: MẶT BIỂN',
+    icon: '🦑🌊',
+    bodyColor: '#ea580c',
+    accentColor: '#38bdf8',
+    bulletColor: '#0284c7',
+    eyeColor: '#facc15',
+    radius: 48,
+    baseHp: 600,
+    attackInterval: 4.2,
+    shootInterval: 3.0,
+    bulletCount: 8,
+    title: 'Quái vật xúc tu đại dương'
+  },
+  {
+    stage: 4,
+    type: 'shark',
+    name: 'CÁ MẬP BIỂN SÂU',
+    tag: 'BOSS VÒNG 4: ĐÁY ĐẠI DƯƠNG',
+    icon: '🦈🐙',
+    bodyColor: '#0f172a',
+    accentColor: '#06b6d4',
+    bulletColor: '#06b6d4',
+    eyeColor: '#ef4444',
+    radius: 50,
+    baseHp: 680,
+    attackInterval: 3.8,
+    shootInterval: 2.8,
+    bulletCount: 9,
+    title: 'Bạo chúa đáy vực thẳm'
+  },
+  {
+    stage: 5,
+    type: 'gingerbread',
+    name: 'QUÁI VẬT BÁNH GỪNG',
+    tag: 'BOSS VÒNG 5: ĐỒ NGỌT',
+    icon: '🍪🍭',
+    bodyColor: '#92400e',
+    accentColor: '#f43f5e',
+    bulletColor: '#f43f5e',
+    eyeColor: '#22c55e',
+    radius: 46,
+    baseHp: 750,
+    attackInterval: 4.0,
+    shootInterval: 2.7,
+    bulletCount: 9,
+    title: 'Người bánh quy đột biến'
+  },
+  {
+    stage: 6,
+    type: 'alien',
+    name: 'NGƯỜI NGOÀI HÀNH TINH',
+    tag: 'BOSS VÒNG 6: VŨ TRỤ',
+    icon: '👽🚀',
+    bodyColor: '#581c87',
+    accentColor: '#c084fc',
+    bulletColor: '#a855f7',
+    eyeColor: '#38bdf8',
+    radius: 46,
+    baseHp: 820,
+    attackInterval: 3.6,
+    shootInterval: 2.5,
+    bulletCount: 10,
+    title: 'Chúa tể thiên hà bí ẩn'
+  },
+  {
+    stage: 7,
+    type: 'robot',
+    name: 'ROBOT TITAN KHỔNG LỒ',
+    tag: 'BOSS VÒNG 7: KHỔNG LỒ',
+    icon: '🤖🗿',
+    bodyColor: '#292524',
+    accentColor: '#eab308',
+    bulletColor: '#eab308',
+    eyeColor: '#ef4444',
+    radius: 52,
+    baseHp: 900,
+    attackInterval: 3.5,
+    shootInterval: 2.4,
+    bulletCount: 10,
+    title: 'Pháo đài cơ khí hủy diệt'
+  },
+  {
+    stage: 8,
+    type: 'lightBeam',
+    name: 'THỰC THỂ TIA SÁNG',
+    tag: 'BOSS VÒNG 8: TOÀN BÓNG TỐI',
+    icon: '⚡✨',
+    bodyColor: '#ffffff',
+    accentColor: '#fbbf24',
+    bulletColor: '#fef08a',
+    eyeColor: '#38bdf8',
+    radius: 48,
+    baseHp: 1000,
+    attackInterval: 3.2,
+    shootInterval: 2.2,
+    bulletCount: 12,
+    title: 'Tia sáng thánh quang xua tan bóng tối'
+  }
+];
+
 // Helper: Vẽ hình chữ nhật bo góc
 function drawRoundRect(ctx, x, y, width, height, radius) {
   ctx.beginPath();
@@ -256,6 +396,7 @@ class Game {
     this.currentMap = STAGE_MAPS[0];
     this.bannerTimer = null;
     this.victoryAwarded = false;
+    this.stageBossSpawned = [false, false, false, false, false, false, false, false];
 
     // Settings Modal Elements
     this.settingsBtn = document.getElementById('settingsBtn');
@@ -1089,13 +1230,14 @@ class Game {
     this.laserSpawnTimer = this.settings.difficulty === 'easy' ? 24 : (this.settings.difficulty === 'hard' ? 10 : (this.settings.difficulty === 'nightmare' ? 7 : 15));
     this.extraHazardSpawned = false;
 
-    // Reset Multi-Boss Battle
+    // Reset Multi-Boss Battle across 8 Stages
     this.bosses = [];
     this.bossSpawned = false;
     this.bossDefeated = false;
     this.bullets = [];
     this.bossBullets = [];
     this.catShootTimer = 0;
+    this.stageBossSpawned = [false, false, false, false, false, false, false, false];
     if (this.bossHudEl) this.bossHudEl.classList.add('hidden');
   }
 
@@ -1145,6 +1287,11 @@ class Game {
       h.color = this.currentMap.spikeColor;
       h.obstacleType = this.currentMap.obstacleType;
     });
+
+    // Dọn sạch boss và đạn của vòng cũ khi bước sang vòng mới
+    this.bosses = [];
+    this.bossBullets = [];
+    if (this.bossHudEl) this.bossHudEl.classList.add('hidden');
 
     // SFX & Haptics & Screen Shake
     sound.playMapClear();
@@ -1422,55 +1569,65 @@ class Game {
     }
   }
 
-  // --- Multi-Boss Battle System (Configurable Spawn Time & Difficulty) ---
-  spawnBosses() {
+  // --- 8-Stage Boss Battle System (Mỗi map có Đại Boss đặc trưng) ---
+  spawnStageBoss(stageNum) {
+    const bossData = STAGE_BOSSES[stageNum - 1] || STAGE_BOSSES[0];
+    this.stageBossSpawned[stageNum - 1] = true;
     this.bossSpawned = true;
+
     sound.playBossAlert();
-    this.vibrate([100, 60, 100]);
+    this.vibrate([120, 60, 120]);
     this.shakeScreen(0.5, 20);
 
-    const count = this.settings.bossCount || 1;
-    const hpPerBoss = this.settings.difficulty === 'easy' ? 400 : (this.settings.difficulty === 'hard' ? 550 : (this.settings.difficulty === 'nightmare' ? 700 : 600));
+    const diffScale = this.settings.difficulty === 'easy' ? 0.75 : (this.settings.difficulty === 'hard' ? 1.25 : (this.settings.difficulty === 'nightmare' ? 1.5 : 1.0));
+    const hp = Math.round(bossData.baseHp * diffScale);
 
-    this.addFloatingText(count > 1 ? `⚠️ ${count} ĐẠI BOSS XUẤT HIỆN!` : '⚠️ ĐẠI BOSS XUẤT HIỆN!', CANVAS_SIZE / 2, 170, '#ef4444');
-    this.addFloatingText('MÈO TRANG BỊ SÚNG PLASMA!', this.cat.x, this.cat.y - 35, '#38bdf8');
+    this.addFloatingText(`⚠️ ${bossData.name} XUẤT HIỆN!`, CANVAS_SIZE / 2, 170, bossData.accentColor);
+    this.addFloatingText('MÈO KÍCH HOẠT SÚNG PLASMA BẮN TRẢ!', this.cat.x, this.cat.y - 35, '#38bdf8');
 
-    this.bosses = [];
-    const bossThemes = [
-      { name: 'CHÓ ROBOT ALPHA', body: '#ef4444', eye: '#fbbf24', bullet: '#f43f5e' },
-      { name: 'CHÓ ROBOT BETA', body: '#a855f7', eye: '#38bdf8', bullet: '#c084fc' },
-      { name: 'CHÓ ROBOT OMEGA', body: '#f59e0b', eye: '#10b981', bullet: '#fbbf24' }
-    ];
+    // Tạo Boss tương ứng của map
+    const newBoss = {
+      id: Date.now(),
+      stage: stageNum,
+      type: bossData.type,
+      name: bossData.name,
+      icon: bossData.icon,
+      x: CANVAS_SIZE / 2,
+      y: 155,
+      vx: (Math.random() > 0.5 ? 140 : -140) * diffScale,
+      vy: 85 * diffScale,
+      radius: bossData.radius,
+      maxHp: hp,
+      hp: hp,
+      hitFlash: 0,
+      attackTimer: bossData.attackInterval,
+      isCharging: false,
+      chargeTimer: 0,
+      chargeTargetX: 0,
+      chargeTargetY: 0,
+      shootTimer: bossData.shootInterval,
+      animTime: 0,
+      bulletCount: bossData.bulletCount,
+      data: bossData,
+      theme: {
+        body: bossData.bodyColor,
+        accent: bossData.accentColor,
+        bullet: bossData.bulletColor,
+        eye: bossData.eyeColor
+      }
+    };
 
-    for (let i = 0; i < count; i++) {
-      const theme = bossThemes[i % bossThemes.length];
-      const spacing = CANVAS_SIZE / (count + 1);
-      this.bosses.push({
-        id: i,
-        name: theme.name,
-        x: spacing * (i + 1),
-        y: 140 + (i % 2) * 35,
-        vx: (i % 2 === 0 ? 145 : -145),
-        vy: 90 + i * 15,
-        radius: 45,
-        maxHp: hpPerBoss,
-        hp: hpPerBoss,
-        hitFlash: 0,
-        attackTimer: 4.0 + i * 0.9,
-        isCharging: false,
-        chargeTimer: 0,
-        chargeTargetX: 0,
-        chargeTargetY: 0,
-        shootTimer: 2.5 + i * 0.7,
-        animTime: i * 1.5,
-        theme
-      });
-    }
+    this.bosses = [newBoss];
 
     if (this.bossHudEl) {
       this.bossHudEl.classList.remove('hidden');
       this.updateBossHUD();
     }
+  }
+
+  // Fallback for manual trigger
+  spawnBosses() {
+    this.spawnStageBoss(this.currentStage);
   }
 
   updateBossHUD() {
@@ -1480,13 +1637,12 @@ class Game {
       if (this.bossHudEl) this.bossHudEl.classList.add('hidden');
       return;
     }
+    const currentBoss = aliveBosses[0];
     const totalHp = Math.max(0, aliveBosses.reduce((sum, b) => sum + b.hp, 0));
     const totalMaxHp = this.bosses.reduce((sum, b) => sum + b.maxHp, 0);
 
     if (this.bossNameEl) {
-      this.bossNameEl.textContent = this.bosses.length > 1
-        ? `ĐẠI BOSS (${aliveBosses.length}/${this.bosses.length} CON)`
-        : `${aliveBosses[0].name} (LV.MAX)`;
+      this.bossNameEl.textContent = `${currentBoss.icon || '⚠️'} ${currentBoss.name} (VÒNG ${currentBoss.stage || this.currentStage})`;
     }
     this.bossHpTextEl.textContent = `${totalHp} / ${totalMaxHp}`;
     const pct = Math.max(0, Math.min(100, (totalHp / totalMaxHp) * 100));
@@ -1573,7 +1729,7 @@ class Game {
 
   spawnBossBullets(boss) {
     sound.playLaserFire();
-    const count = 7;
+    const count = boss.bulletCount || 8;
     for (let i = 0; i < count; i++) {
       const angle = (Math.PI * 2 / count) * i + Math.random() * 0.2;
       this.bossBullets.push({
@@ -1582,7 +1738,7 @@ class Game {
         vx: Math.cos(angle) * 195,
         vy: Math.sin(angle) * 195,
         radius: 7,
-        color: boss.theme.bullet || '#f43f5e'
+        color: (boss.theme && boss.theme.bullet) ? boss.theme.bullet : '#f43f5e'
       });
     }
   }
@@ -1780,12 +1936,13 @@ class Game {
       }
     }
 
-    // Check Boss Spawn based on Settings (Time or Score)
-    if (!this.bossSpawned) {
-      const triggerSeconds = this.settings.bossSpawnTime || 60;
-      if (this.elapsedTime >= triggerSeconds) {
-        this.spawnBosses();
-      }
+    // Check Boss Spawn for Current Stage (Spawns at stageReq + 250 pts)
+    const currentStageIdx = this.currentStage - 1;
+    const stageReq = (STAGE_MAPS[currentStageIdx] ? STAGE_MAPS[currentStageIdx].scoreReq : 0);
+    const triggerScore = stageReq + 250;
+
+    if (!this.stageBossSpawned[currentStageIdx] && this.score >= triggerScore) {
+      this.spawnStageBoss(this.currentStage);
     }
 
     // Cat Invulnerability i-frame Countdown
@@ -2335,72 +2492,467 @@ class Game {
 
       const isHit = b.hitFlash > 0;
 
-      // Boss Shadow
-      ctx.fillStyle = 'rgba(18, 20, 35, 0.28)';
-      ctx.beginPath();
-      ctx.ellipse(0, b.radius + 14, b.radius * 1.1, 14, 0, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Jet Flames
-      const flameSize = 14 + Math.sin(b.animTime * 25) * 5;
-      ctx.fillStyle = '#f97316';
-      ctx.beginPath();
-      ctx.moveTo(-16, b.radius - 6);
-      ctx.lineTo(0, b.radius + flameSize);
-      ctx.lineTo(16, b.radius - 6);
-      ctx.fill();
-      ctx.fillStyle = '#fef08a';
-      ctx.beginPath();
-      ctx.moveTo(-8, b.radius - 6);
-      ctx.lineTo(0, b.radius + flameSize * 0.6);
-      ctx.lineTo(8, b.radius - 6);
-      ctx.fill();
-
-      // Main Cyber Armor Body
-      ctx.fillStyle = isHit ? '#ffffff' : (b.isCharging ? '#b91c1c' : (b.theme.body || '#1e1b4b'));
-      drawRoundRect(ctx, -b.radius, -b.radius * 0.85, b.radius * 2, b.radius * 1.7, 24);
-
-      // Armor Shoulder Pads (Spiked)
-      ctx.fillStyle = isHit ? '#ffffff' : '#312e81';
-      drawRoundRect(ctx, -b.radius - 12, -b.radius * 0.5, 14, 34, 6);
-      drawRoundRect(ctx, b.radius - 2, -b.radius * 0.5, 14, 34, 6);
-
-      // Cyber Dog Ears
-      ctx.fillStyle = isHit ? '#ffffff' : '#4338ca';
-      ctx.beginPath();
-      ctx.moveTo(-32, -b.radius * 0.85);
-      ctx.lineTo(-24, -b.radius - 18);
-      ctx.lineTo(-10, -b.radius * 0.85);
-      ctx.fill();
-      ctx.beginPath();
-      ctx.moveTo(32, -b.radius * 0.85);
-      ctx.lineTo(24, -b.radius - 18);
-      ctx.lineTo(10, -b.radius * 0.85);
-      ctx.fill();
-
-      // Glowing Neon Visor Eyes
-      const eyeColor = b.isCharging ? '#ef4444' : (b.theme.eye || '#06b6d4');
-      ctx.fillStyle = eyeColor;
-      ctx.shadowColor = eyeColor;
-      ctx.shadowBlur = 12;
-      drawRoundRect(ctx, -26, -14, 52, 14, 7);
-      ctx.shadowBlur = 0;
-
-      // Visor Pupils / Scanner Line
-      const scanOffset = Math.sin(b.animTime * 6) * 16;
-      ctx.fillStyle = '#ffffff';
-      ctx.beginPath();
-      ctx.arc(scanOffset, -7, 4, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Steel Dog Muzzle & Teeth
-      ctx.fillStyle = '#475569';
-      drawRoundRect(ctx, -18, 8, 36, 18, 8);
-      // Metal Teeth
-      ctx.fillStyle = '#f8fafc';
-      for (let i = -12; i <= 12; i += 8) {
+      // Drop Shadow (except for divine light beam)
+      if (b.type !== 'lightBeam') {
+        ctx.fillStyle = 'rgba(18, 20, 35, 0.28)';
         ctx.beginPath();
-        ctx.moveTo(i, 18); ctx.lineTo(i + 4, 25); ctx.lineTo(i + 8, 18);
+        ctx.ellipse(0, b.radius + 14, b.radius * 1.05, 12, 0, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // --- 1. SCARECROW (Quái vật người rơm 🌾🎃) ---
+      if (b.type === 'scarecrow') {
+        // Wooden Post & Crossbar
+        ctx.fillStyle = '#78350f';
+        drawRoundRect(ctx, -5, -b.radius * 0.2, 10, b.radius * 1.35, 4);
+        drawRoundRect(ctx, -b.radius * 0.85, -b.radius * 0.1, b.radius * 1.7, 8, 4);
+
+        // Ragged Straw Cape
+        ctx.fillStyle = isHit ? '#ffffff' : (b.isCharging ? '#dc2626' : '#92400e');
+        ctx.beginPath();
+        ctx.moveTo(0, -b.radius * 0.1);
+        ctx.lineTo(-b.radius * 0.65, b.radius * 0.75);
+        ctx.lineTo(b.radius * 0.65, b.radius * 0.75);
+        ctx.closePath();
+        ctx.fill();
+
+        // Straw Hand Tufts
+        ctx.strokeStyle = '#f59e0b';
+        ctx.lineWidth = 3;
+        for (let s of [-1, 1]) {
+          const ax = s * b.radius * 0.85;
+          ctx.beginPath();
+          ctx.moveTo(ax, -b.radius * 0.05);
+          ctx.lineTo(ax + s * 14, b.radius * 0.2 + Math.sin(b.animTime * 8) * 4);
+          ctx.stroke();
+        }
+
+        // Pumpkin Head
+        ctx.fillStyle = isHit ? '#ffffff' : (b.isCharging ? '#ef4444' : '#ea580c');
+        ctx.beginPath();
+        ctx.arc(0, -b.radius * 0.45, b.radius * 0.48, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Pumpkin Ridges
+        ctx.strokeStyle = '#c2410c';
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        ctx.ellipse(0, -b.radius * 0.45, b.radius * 0.25, b.radius * 0.46, 0, 0, Math.PI * 2);
+        ctx.stroke();
+
+        // Pointed Hat
+        ctx.fillStyle = '#451a03';
+        ctx.beginPath();
+        ctx.moveTo(-b.radius * 0.65, -b.radius * 0.7);
+        ctx.lineTo(b.radius * 0.65, -b.radius * 0.7);
+        ctx.lineTo(0, -b.radius * 1.25);
+        ctx.closePath();
+        ctx.fill();
+        ctx.strokeStyle = '#78350f';
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.moveTo(-b.radius * 0.75, -b.radius * 0.68);
+        ctx.lineTo(b.radius * 0.75, -b.radius * 0.68);
+        ctx.stroke();
+
+        // Glowing Fiery Eyes & Grin
+        const pGlow = b.isCharging ? '#ef4444' : '#fef08a';
+        ctx.fillStyle = pGlow;
+        ctx.shadowColor = pGlow;
+        ctx.shadowBlur = 12;
+        ctx.beginPath();
+        ctx.moveTo(-15, -b.radius * 0.55); ctx.lineTo(-7, -b.radius * 0.55); ctx.lineTo(-11, -b.radius * 0.42); ctx.closePath();
+        ctx.moveTo(15, -b.radius * 0.55); ctx.lineTo(7, -b.radius * 0.55); ctx.lineTo(11, -b.radius * 0.42); ctx.closePath();
+        ctx.fill();
+        ctx.beginPath();
+        ctx.moveTo(-13, -b.radius * 0.32); ctx.lineTo(-8, -b.radius * 0.24); ctx.lineTo(-3, -b.radius * 0.32);
+        ctx.lineTo(3, -b.radius * 0.24); ctx.lineTo(8, -b.radius * 0.32); ctx.lineTo(13, -b.radius * 0.24);
+        ctx.stroke();
+        ctx.shadowBlur = 0;
+
+      // --- 2. FLOWER TITAN (Quái vật bông hoa 🌸🌻) ---
+      } else if (b.type === 'flower') {
+        const pCount = 8;
+        const breath = Math.sin(b.animTime * 5) * 3;
+        // 8 Giant Petals
+        for (let i = 0; i < pCount; i++) {
+          const pAng = (Math.PI * 2 / pCount) * i + b.animTime * 0.4;
+          const px = Math.cos(pAng) * (b.radius * 0.65 + breath);
+          const py = Math.sin(pAng) * (b.radius * 0.65 + breath);
+          ctx.fillStyle = isHit ? '#ffffff' : (i % 2 === 0 ? '#f43f5e' : '#ec4899');
+          ctx.beginPath();
+          ctx.arc(px, py, b.radius * 0.42, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        // Vine Leaves
+        ctx.fillStyle = '#15803d';
+        for (let s of [-1, 1]) {
+          ctx.beginPath();
+          ctx.ellipse(s * (b.radius + 6), 10 + Math.sin(b.animTime * 4) * 5, 16, 8, s * 0.4, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        // Central Carnivorous Maw
+        ctx.fillStyle = isHit ? '#ffffff' : '#4c0519';
+        ctx.beginPath();
+        ctx.arc(0, 0, b.radius * 0.52, 0, Math.PI * 2);
+        ctx.fill();
+
+        // 8 Fangs
+        ctx.fillStyle = '#fef08a';
+        for (let i = 0; i < 8; i++) {
+          const fa = (Math.PI / 4) * i;
+          ctx.beginPath();
+          ctx.moveTo(Math.cos(fa) * (b.radius * 0.5), Math.sin(fa) * (b.radius * 0.5));
+          ctx.lineTo(Math.cos(fa - 0.2) * (b.radius * 0.48), Math.sin(fa - 0.2) * (b.radius * 0.48));
+          ctx.lineTo(Math.cos(fa) * (b.radius * 0.25), Math.sin(fa) * (b.radius * 0.25));
+          ctx.closePath();
+          ctx.fill();
+        }
+
+        // Toxic Green Core Eye
+        const tox = b.isCharging ? '#ef4444' : '#22c55e';
+        ctx.fillStyle = tox;
+        ctx.shadowColor = tox;
+        ctx.shadowBlur = 14;
+        ctx.beginPath();
+        ctx.arc(0, 0, 10, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+
+      // --- 3. GIANT KRAKEN SQUID (Mực khổng lồ Kraken 🦑🌊) ---
+      } else if (b.type === 'squid') {
+        // Tentacles
+        ctx.strokeStyle = isHit ? '#ffffff' : '#c2410c';
+        ctx.lineWidth = 6;
+        ctx.lineCap = 'round';
+        for (let i = -2; i <= 3; i++) {
+          const tx = i * 14;
+          const sway = Math.sin(b.animTime * 5 + i * 1.2) * 15;
+          ctx.beginPath();
+          ctx.moveTo(tx * 0.7, b.radius * 0.4);
+          ctx.quadraticCurveTo(tx + sway, b.radius * 1.1, tx * 0.5 + sway * 1.3, b.radius * 1.6);
+          ctx.stroke();
+
+          // Sucker
+          ctx.fillStyle = '#38bdf8';
+          ctx.beginPath();
+          ctx.arc(tx * 0.7 + sway * 0.5, b.radius * 0.9, 3, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        // Mantle
+        ctx.fillStyle = isHit ? '#ffffff' : (b.isCharging ? '#dc2626' : '#ea580c');
+        ctx.beginPath();
+        ctx.moveTo(0, -b.radius * 1.15);
+        ctx.quadraticCurveTo(-b.radius * 0.9, -b.radius * 0.2, -b.radius * 0.65, b.radius * 0.45);
+        ctx.quadraticCurveTo(0, b.radius * 0.55, b.radius * 0.65, b.radius * 0.45);
+        ctx.quadraticCurveTo(b.radius * 0.9, -b.radius * 0.2, 0, -b.radius * 1.15);
+        ctx.closePath();
+        ctx.fill();
+
+        // Top Fin
+        ctx.fillStyle = '#c2410c';
+        ctx.beginPath();
+        ctx.moveTo(0, -b.radius * 1.15);
+        ctx.lineTo(-b.radius * 0.55, -b.radius * 0.7);
+        ctx.lineTo(b.radius * 0.55, -b.radius * 0.7);
+        ctx.closePath();
+        ctx.fill();
+
+        // Eyes
+        [-17, 17].forEach(ex => {
+          ctx.fillStyle = '#fef08a';
+          ctx.beginPath();
+          ctx.arc(ex, b.radius * 0.1, 9, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = '#000000';
+          ctx.beginPath();
+          ctx.ellipse(ex, b.radius * 0.1, 7, 3, 0, 0, Math.PI * 2);
+          ctx.fill();
+        });
+
+      // --- 4. ABYSSAL SHARK (Cá mập biển sâu 🦈🐙) ---
+      } else if (b.type === 'shark') {
+        // Body
+        ctx.fillStyle = isHit ? '#ffffff' : (b.isCharging ? '#991b1b' : '#1e293b');
+        ctx.beginPath();
+        ctx.ellipse(0, 0, b.radius * 1.15, b.radius * 0.72, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Underbelly
+        ctx.fillStyle = '#cbd5e1';
+        ctx.beginPath();
+        ctx.ellipse(0, b.radius * 0.25, b.radius * 0.85, b.radius * 0.35, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Dorsal Fin
+        ctx.fillStyle = '#0f172a';
+        ctx.beginPath();
+        ctx.moveTo(-10, -b.radius * 0.6);
+        ctx.quadraticCurveTo(0, -b.radius * 1.3, 14, -b.radius * 1.3);
+        ctx.lineTo(8, -b.radius * 0.6);
+        ctx.closePath();
+        ctx.fill();
+
+        // Pectoral Fins
+        for (let s of [-1, 1]) {
+          ctx.beginPath();
+          ctx.moveTo(s * b.radius * 0.7, 0);
+          ctx.lineTo(s * (b.radius * 1.22), b.radius * 0.38);
+          ctx.lineTo(s * b.radius * 0.5, b.radius * 0.38);
+          ctx.closePath();
+          ctx.fill();
+        }
+
+        // Glowing Gills
+        ctx.strokeStyle = '#06b6d4';
+        ctx.lineWidth = 2.5;
+        for (let i = 0; i < 3; i++) {
+          ctx.beginPath();
+          ctx.moveTo(-14 - i * 6, -10);
+          ctx.lineTo(-12 - i * 6, 8);
+          ctx.stroke();
+        }
+
+        // Eyes
+        ctx.fillStyle = '#ef4444';
+        ctx.shadowColor = '#ef4444';
+        ctx.shadowBlur = 10;
+        ctx.beginPath();
+        ctx.arc(b.radius * 0.55, -8, 6, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+
+        // Serrated Teeth
+        ctx.fillStyle = '#f8fafc';
+        for (let i = -16; i <= 24; i += 7) {
+          ctx.beginPath();
+          ctx.moveTo(i, 12); ctx.lineTo(i + 3.5, 20); ctx.lineTo(i + 7, 12);
+          ctx.closePath();
+          ctx.fill();
+        }
+
+      // --- 5. GINGERBREAD TITAN (Quái vật bánh quy gừng 🍪🍭) ---
+      } else if (b.type === 'gingerbread') {
+        // Cookie Body
+        ctx.fillStyle = isHit ? '#ffffff' : (b.isCharging ? '#78350f' : '#b45309');
+        drawRoundRect(ctx, -b.radius * 0.7, -b.radius * 0.8, b.radius * 1.4, b.radius * 1.6, 26);
+
+        // Cookie Ears
+        ctx.beginPath();
+        ctx.arc(-b.radius * 0.5, -b.radius * 0.75, 14, 0, Math.PI * 2);
+        ctx.arc(b.radius * 0.5, -b.radius * 0.75, 14, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Icing Wavy Border
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 3.5;
+        ctx.beginPath();
+        for (let a = 0; a <= Math.PI * 2; a += 0.25) {
+          const wave = Math.sin(a * 10) * 2;
+          const r = b.radius * 0.66 + wave;
+          const ix = Math.cos(a) * r;
+          const iy = Math.sin(a) * (r * 0.9);
+          if (a === 0) ctx.moveTo(ix, iy); else ctx.lineTo(ix, iy);
+        }
+        ctx.closePath();
+        ctx.stroke();
+
+        // Green Gumdrop Eyes
+        [-14, 14].forEach(gx => {
+          ctx.fillStyle = '#22c55e';
+          ctx.beginPath();
+          ctx.arc(gx, -14, 6, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = '#000000';
+          ctx.beginPath();
+          ctx.arc(gx, -14, 2.5, 0, Math.PI * 2);
+          ctx.fill();
+        });
+
+        // Licorice Smile
+        ctx.strokeStyle = '#ef4444';
+        ctx.lineWidth = 3.5;
+        ctx.beginPath();
+        ctx.arc(0, 4, 14, 0.2, Math.PI - 0.2);
+        ctx.stroke();
+
+        // Buttons
+        [15, 28].forEach(by => {
+          ctx.fillStyle = '#f43f5e';
+          ctx.beginPath();
+          ctx.arc(0, by, 5, 0, Math.PI * 2);
+          ctx.fill();
+        });
+
+        // Candy Cane Club in hand
+        ctx.save();
+        ctx.translate(b.radius * 0.85, 0);
+        ctx.rotate(0.4 + Math.sin(b.animTime * 6) * 0.3);
+        ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 6; ctx.lineCap = 'round';
+        ctx.beginPath(); ctx.moveTo(0, 20); ctx.lineTo(0, -20); ctx.arc(-8, -20, 8, 0, Math.PI, true); ctx.stroke();
+        ctx.strokeStyle = '#ef4444'; ctx.lineWidth = 4;
+        ctx.beginPath(); ctx.moveTo(0, 15); ctx.lineTo(0, 5); ctx.moveTo(0, -5); ctx.lineTo(0, -15); ctx.stroke();
+        ctx.restore();
+
+      // --- 6. ALIEN COSMIC OVERLORD (Người ngoài hành tinh 👽🚀) ---
+      } else if (b.type === 'alien') {
+        // UFO Base Plate
+        ctx.fillStyle = '#475569';
+        ctx.beginPath();
+        ctx.ellipse(0, b.radius * 0.45, b.radius * 1.25, b.radius * 0.45, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Neon Lights
+        const ufoColors = ['#a855f7', '#38bdf8', '#facc15', '#22c55e'];
+        for (let i = 0; i < 6; i++) {
+          const lAng = (Math.PI / 3) * i + b.animTime * 2;
+          const lx = Math.cos(lAng) * (b.radius * 1.05);
+          const ly = b.radius * 0.45 + Math.sin(lAng) * (b.radius * 0.35);
+          ctx.fillStyle = ufoColors[(i + Math.floor(b.animTime * 4)) % ufoColors.length];
+          ctx.beginPath();
+          ctx.arc(lx, ly, 4, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        // Cockpit Dome
+        ctx.fillStyle = 'rgba(56, 189, 248, 0.28)';
+        ctx.strokeStyle = 'rgba(56, 189, 248, 0.7)';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(0, 0, b.radius * 0.75, Math.PI, 0);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+
+        // Alien Head
+        ctx.fillStyle = isHit ? '#ffffff' : (b.isCharging ? '#9333ea' : '#7e22ce');
+        ctx.beginPath();
+        ctx.moveTo(0, -b.radius * 0.75);
+        ctx.bezierCurveTo(-b.radius * 0.65, -b.radius * 0.75, -b.radius * 0.6, -b.radius * 0.1, -b.radius * 0.25, b.radius * 0.2);
+        ctx.lineTo(b.radius * 0.25, b.radius * 0.2);
+        ctx.bezierCurveTo(b.radius * 0.6, -b.radius * 0.1, b.radius * 0.65, -b.radius * 0.75, 0, -b.radius * 0.75);
+        ctx.fill();
+
+        // Cosmic Eyes
+        [-13, 13].forEach((ax, idx) => {
+          ctx.fillStyle = '#09090b';
+          ctx.beginPath();
+          ctx.ellipse(ax, -b.radius * 0.35, 11, 7, (idx === 0 ? -0.35 : 0.35), 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = '#38bdf8';
+          ctx.beginPath();
+          ctx.arc(ax - 2, -b.radius * 0.38, 2.5, 0, Math.PI * 2);
+          ctx.fill();
+        });
+
+        // Antenna
+        ctx.strokeStyle = '#c084fc';
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        ctx.moveTo(0, -b.radius * 0.75);
+        ctx.lineTo(0, -b.radius * 1.05);
+        ctx.stroke();
+        ctx.fillStyle = '#fde047';
+        ctx.beginPath();
+        ctx.arc(0, -b.radius * 1.08, 4.5, 0, Math.PI * 2);
+        ctx.fill();
+
+      // --- 7. COLOSSAL TITAN MECH (Robot titan khổng lồ 🤖🗿) ---
+      } else if (b.type === 'robot') {
+        // Chassis
+        ctx.fillStyle = isHit ? '#ffffff' : (b.isCharging ? '#7f1d1d' : '#292524');
+        drawRoundRect(ctx, -b.radius * 0.95, -b.radius * 0.85, b.radius * 1.9, b.radius * 1.7, 16);
+
+        // Shoulder Missile Pods
+        ctx.fillStyle = '#44403c';
+        drawRoundRect(ctx, -b.radius - 16, -b.radius * 0.65, 18, 40, 6);
+        drawRoundRect(ctx, b.radius - 2, -b.radius * 0.65, 18, 40, 6);
+        ctx.fillStyle = '#ef4444';
+        for (let my of [-b.radius * 0.45, -b.radius * 0.2, b.radius * 0.05]) {
+          ctx.beginPath();
+          ctx.arc(-b.radius - 7, my, 3.5, 0, Math.PI * 2);
+          ctx.arc(b.radius + 7, my, 3.5, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        // Steam Vents
+        ctx.fillStyle = '#78716c';
+        drawRoundRect(ctx, -22, -b.radius - 12, 12, 14, 4);
+        drawRoundRect(ctx, 10, -b.radius - 12, 12, 14, 4);
+
+        // Gold Runic Lines
+        ctx.strokeStyle = '#eab308';
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        ctx.moveTo(-b.radius * 0.6, 12); ctx.lineTo(b.radius * 0.6, 12);
+        ctx.moveTo(0, -b.radius * 0.35); ctx.lineTo(0, b.radius * 0.55);
+        ctx.stroke();
+
+        // Cyclops Eye
+        ctx.fillStyle = '#0f172a';
+        drawRoundRect(ctx, -28, -16, 56, 16, 8);
+        const sweep = Math.sin(b.animTime * 7) * 18;
+        ctx.fillStyle = '#ef4444';
+        ctx.shadowColor = '#ef4444';
+        ctx.shadowBlur = 15;
+        ctx.beginPath();
+        ctx.arc(sweep, -8, 6.5, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+
+      // --- 8. RADIANT DIVINE BEAM (Thực thể tia sáng thần thánh ⚡✨) ---
+      } else if (b.type === 'lightBeam') {
+        const auraCount = 8;
+        const spin = b.animTime * 1.8;
+
+        // Rotating Divine Holy Rays
+        for (let i = 0; i < auraCount; i++) {
+          const rayAng = (Math.PI * 2 / auraCount) * i + spin;
+          const rayLen = b.radius * (1.3 + Math.sin(b.animTime * 8 + i) * 0.35);
+          ctx.strokeStyle = (i % 2 === 0 ? '#fef08a' : 'rgba(255, 255, 255, 0.9)');
+          ctx.lineWidth = (i % 2 === 0 ? 5 : 3);
+          ctx.shadowColor = '#fbbf24';
+          ctx.shadowBlur = 20;
+          ctx.beginPath();
+          ctx.moveTo(0, 0);
+          ctx.lineTo(Math.cos(rayAng) * rayLen, Math.sin(rayAng) * rayLen);
+          ctx.stroke();
+        }
+
+        // Diamond Cross Ray Star
+        ctx.fillStyle = '#ffffff';
+        ctx.shadowColor = '#f59e0b';
+        ctx.shadowBlur = 28;
+        ctx.beginPath();
+        const starLen = b.radius * 1.5;
+        ctx.moveTo(0, -starLen); ctx.lineTo(12, 0); ctx.lineTo(0, starLen); ctx.lineTo(-12, 0); ctx.closePath();
+        ctx.fill();
+        ctx.beginPath();
+        ctx.moveTo(-starLen, 0); ctx.lineTo(0, 12); ctx.lineTo(starLen, 0); ctx.lineTo(0, -12); ctx.closePath();
+        ctx.fill();
+
+        // Core Sun
+        ctx.fillStyle = isHit ? '#ffffff' : '#fef9c3';
+        ctx.shadowColor = '#ffffff';
+        ctx.shadowBlur = 35;
+        ctx.beginPath();
+        ctx.arc(0, 0, b.radius * 0.65, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+
+        // Golden Halo Eye
+        ctx.strokeStyle = '#f59e0b';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.arc(0, 0, 14, 0, Math.PI * 2);
+        ctx.stroke();
+
+        ctx.fillStyle = b.isCharging ? '#ef4444' : '#38bdf8';
+        ctx.beginPath();
+        ctx.arc(0, 0, 6, 0, Math.PI * 2);
         ctx.fill();
       }
 
