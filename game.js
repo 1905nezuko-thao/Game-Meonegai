@@ -67,13 +67,13 @@ const CAT_SKINS = [
   }
 ];
 
-// 8 Thế giới / Vòng chơi theo mốc 800 điểm
+// 18 Thế giới / Vòng chơi theo mốc 800 điểm
 const STAGE_MAPS = [
   {
     stage: 1,
     name: 'Nông trại',
     icon: '🌾',
-    tag: 'VÒNG 1/8',
+    tag: 'VÒNG 1/18',
     scoreReq: 0,
     bgGrad: ['#fffbeb', '#fef3c7'],
     gridColor: 'rgba(180, 83, 9, 0.08)',
@@ -87,7 +87,7 @@ const STAGE_MAPS = [
     stage: 2,
     name: 'Bãi cỏ',
     icon: '🌿',
-    tag: 'VÒNG 2/8',
+    tag: 'VÒNG 2/18',
     scoreReq: 800,
     bgGrad: ['#f0fdf4', '#dcfce7'],
     gridColor: 'rgba(21, 128, 61, 0.08)',
@@ -101,7 +101,7 @@ const STAGE_MAPS = [
     stage: 3,
     name: 'Trên mặt biển',
     icon: '🌊',
-    tag: 'VÒNG 3/8',
+    tag: 'VÒNG 3/18',
     scoreReq: 1600,
     bgGrad: ['#e0f2fe', '#bae6fd'],
     gridColor: 'rgba(2, 132, 199, 0.08)',
@@ -115,7 +115,7 @@ const STAGE_MAPS = [
     stage: 4,
     name: 'Đáy đại dương',
     icon: '🐙',
-    tag: 'VÒNG 4/8',
+    tag: 'VÒNG 4/18',
     scoreReq: 2400,
     bgGrad: ['#0f172a', '#1e293b'],
     gridColor: 'rgba(56, 189, 248, 0.12)',
@@ -129,7 +129,7 @@ const STAGE_MAPS = [
     stage: 5,
     name: 'Thế giới kẹo ngọt',
     icon: '🍭',
-    tag: 'VÒNG 5/8',
+    tag: 'VÒNG 5/18',
     scoreReq: 3200,
     bgGrad: ['#fff1f2', '#ffe4e6'],
     gridColor: 'rgba(244, 63, 94, 0.08)',
@@ -143,7 +143,7 @@ const STAGE_MAPS = [
     stage: 6,
     name: 'Vũ trụ',
     icon: '🚀',
-    tag: 'VÒNG 6/8',
+    tag: 'VÒNG 6/18',
     scoreReq: 4000,
     bgGrad: ['#09090b', '#18181b'],
     gridColor: 'rgba(168, 85, 247, 0.14)',
@@ -157,7 +157,7 @@ const STAGE_MAPS = [
     stage: 7,
     name: 'Thế giới khổng lồ',
     icon: '🗿',
-    tag: 'VÒNG 7/8',
+    tag: 'VÒNG 7/18',
     scoreReq: 4800,
     bgGrad: ['#1c1917', '#292524'],
     gridColor: 'rgba(234, 179, 8, 0.12)',
@@ -171,7 +171,7 @@ const STAGE_MAPS = [
     stage: 8,
     name: 'Toàn bóng tối',
     icon: '🌑',
-    tag: 'VÒNG 8/8',
+    tag: 'VÒNG 8/18',
     scoreReq: 5600,
     bgGrad: ['#030307', '#090714'],
     gridColor: 'rgba(239, 68, 68, 0.15)',
@@ -180,10 +180,150 @@ const STAGE_MAPS = [
     obstacleName: 'Mắt quỷ bóng đêm hư không',
     obstacleType: 'shadowEye',
     isDarknessMode: true
+  },
+  {
+    stage: 9,
+    name: 'Sa mạc viễn tây',
+    icon: '🏜️',
+    tag: 'VÒNG 9/18',
+    scoreReq: 6400,
+    bgGrad: ['#fef3c7', '#fde68a'],
+    gridColor: 'rgba(180, 83, 9, 0.08)',
+    wallColor: '#78350f',
+    spikeColor: '#d97706',
+    obstacleName: 'Bụi cỏ lăn sa mạc',
+    obstacleType: 'tumbleweed',
+    isDarknessMode: false
+  },
+  {
+    stage: 10,
+    name: 'Xứ sở băng tuyết',
+    icon: '❄️',
+    tag: 'VÒNG 10/18',
+    scoreReq: 7200,
+    bgGrad: ['#f0f9ff', '#e0f2fe'],
+    gridColor: 'rgba(2, 132, 199, 0.08)',
+    wallColor: '#0c4a6e',
+    spikeColor: '#0284c7',
+    obstacleName: 'Khối băng tuyết gai nhọn',
+    obstacleType: 'iceShard',
+    isDarknessMode: false
+  },
+  {
+    stage: 11,
+    name: 'Núi lửa dung nham',
+    icon: '🌋',
+    tag: 'VÒNG 11/18',
+    scoreReq: 8000,
+    bgGrad: ['#1c1917', '#292524'],
+    gridColor: 'rgba(239, 68, 68, 0.15)',
+    wallColor: '#450a0a',
+    spikeColor: '#ef4444',
+    obstacleName: 'Khối nham thạch bốc khói',
+    obstacleType: 'magmaRock',
+    isDarknessMode: false
+  },
+  {
+    stage: 12,
+    name: 'Rừng cổ đại Jura',
+    icon: '🦖',
+    tag: 'VÒNG 12/18',
+    scoreReq: 8800,
+    bgGrad: ['#f0fdf4', '#dcfce7'],
+    gridColor: 'rgba(21, 128, 61, 0.1)',
+    wallColor: '#14532d',
+    spikeColor: '#16a34a',
+    obstacleName: 'Hóa thạch xương sọ khủng long',
+    obstacleType: 'dinoBone',
+    isDarknessMode: false
+  },
+  {
+    stage: 13,
+    name: 'Thành phố Cyberpunk',
+    icon: '🏙️',
+    tag: 'VÒNG 13/18',
+    scoreReq: 9600,
+    bgGrad: ['#09090b', '#18181b'],
+    gridColor: 'rgba(236, 72, 153, 0.15)',
+    wallColor: '#18021c',
+    spikeColor: '#ec4899',
+    obstacleName: 'Drone tuần tra laser neon',
+    obstacleType: 'drone',
+    isDarknessMode: false
+  },
+  {
+    stage: 14,
+    name: 'Đền thờ cổ Ai Cập',
+    icon: '🏺',
+    tag: 'VÒNG 14/18',
+    scoreReq: 10400,
+    bgGrad: ['#fffbeb', '#fef3c7'],
+    gridColor: 'rgba(202, 138, 4, 0.1)',
+    wallColor: '#713f12',
+    spikeColor: '#ca8a04',
+    obstacleName: 'Bọ hung ngọc bích mạ vàng',
+    obstacleType: 'scarab',
+    isDarknessMode: false
+  },
+  {
+    stage: 15,
+    name: 'Xứ sở nấm thần tiên',
+    icon: '🍄',
+    tag: 'VÒNG 15/18',
+    scoreReq: 11200,
+    bgGrad: ['#2e1065', '#3b0764'],
+    gridColor: 'rgba(216, 180, 254, 0.12)',
+    wallColor: '#3b0764',
+    spikeColor: '#c084fc',
+    obstacleName: 'Bào tử nấm ma thuật dạ quang',
+    obstacleType: 'magicSpore',
+    isDarknessMode: false
+  },
+  {
+    stage: 16,
+    name: 'Thế giới Pixel 8-Bit',
+    icon: '👾',
+    tag: 'VÒNG 16/18',
+    scoreReq: 12000,
+    bgGrad: ['#022c22', '#064e3b'],
+    gridColor: 'rgba(16, 185, 129, 0.16)',
+    wallColor: '#022c22',
+    spikeColor: '#10b981',
+    obstacleName: 'Khối pixel glitch ma trận',
+    obstacleType: 'pixelGlitch',
+    isDarknessMode: false
+  },
+  {
+    stage: 17,
+    name: 'Nghĩa địa bóng ma',
+    icon: '🪦',
+    tag: 'VÒNG 17/18',
+    scoreReq: 12800,
+    bgGrad: ['#0f0d1b', '#18122b'],
+    gridColor: 'rgba(168, 85, 247, 0.15)',
+    wallColor: '#110c22',
+    spikeColor: '#9333ea',
+    obstacleName: 'Bia mộ ma ám cổ thụ',
+    obstacleType: 'tombstone',
+    isDarknessMode: true
+  },
+  {
+    stage: 18,
+    name: 'Đỉnh cao thiên đường',
+    icon: '🏛️',
+    tag: 'VÒNG 18/18',
+    scoreReq: 13600,
+    bgGrad: ['#fffbeb', '#fef9c3'],
+    gridColor: 'rgba(234, 179, 8, 0.15)',
+    wallColor: '#854d0e',
+    spikeColor: '#eab308',
+    obstacleName: 'Bánh xe thần hào quang Ophanim',
+    obstacleType: 'celestialWheel',
+    isDarknessMode: false
   }
 ];
 
-// Danh sách 8 Đại Boss tương ứng với 8 Thế giới
+// Danh sách 18 Đại Boss tương ứng với 18 Thế giới
 const STAGE_BOSSES = [
   {
     stage: 1,
@@ -320,6 +460,176 @@ const STAGE_BOSSES = [
     shootInterval: 2.2,
     bulletCount: 12,
     title: 'Tia sáng thánh quang xua tan bóng tối'
+  },
+  {
+    stage: 9,
+    type: 'cowboyCheetah',
+    name: 'BÁO SA MẠC CAO BỒI',
+    tag: 'BOSS VÒNG 9: SA MẠC VIỄN TÂY',
+    icon: '🤠🐆',
+    bodyColor: '#d97706',
+    accentColor: '#dc2626',
+    bulletColor: '#ea580c',
+    eyeColor: '#fef08a',
+    radius: 46,
+    baseHp: 1080,
+    attackInterval: 3.2,
+    shootInterval: 2.1,
+    bulletCount: 10,
+    title: 'Tay súng cự phách sa mạc cát'
+  },
+  {
+    stage: 10,
+    type: 'yetiKing',
+    name: 'YETI BĂNG GIÁ KHỔNG LỒ',
+    tag: 'BOSS VÒNG 10: XỨ SỞ BĂNG TUYẾT',
+    icon: '❄️🦍',
+    bodyColor: '#e0f2fe',
+    accentColor: '#0284c7',
+    bulletColor: '#38bdf8',
+    eyeColor: '#0284c7',
+    radius: 50,
+    baseHp: 1180,
+    attackInterval: 3.0,
+    shootInterval: 2.0,
+    bulletCount: 10,
+    title: 'Bạo chúa đỉnh núi tuyết vĩnh cửu'
+  },
+  {
+    stage: 11,
+    type: 'magmaDragon',
+    name: 'RỒNG LỬA DUNG NHAM CHÚA',
+    tag: 'BOSS VÒNG 11: NÚI LỬA DUNG NHAM',
+    icon: '🐲🔥',
+    bodyColor: '#7f1d1d',
+    accentColor: '#f97316',
+    bulletColor: '#ea580c',
+    eyeColor: '#fde047',
+    radius: 52,
+    baseHp: 1280,
+    attackInterval: 2.9,
+    shootInterval: 1.9,
+    bulletCount: 11,
+    title: 'Chúa tể biển lửa ngục sâu'
+  },
+  {
+    stage: 12,
+    type: 'dinoTRex',
+    name: 'BẠO CHÚA T-REX TIỀN SỬ',
+    tag: 'BOSS VÒNG 12: RỪNG CỔ ĐẠI JURA',
+    icon: '🦖🦴',
+    bodyColor: '#365314',
+    accentColor: '#84cc16',
+    bulletColor: '#65a30d',
+    eyeColor: '#f97316',
+    radius: 52,
+    baseHp: 1380,
+    attackInterval: 2.8,
+    shootInterval: 1.9,
+    bulletCount: 11,
+    title: 'Vua săn mồi kỷ Jura nguyên thủy'
+  },
+  {
+    stage: 13,
+    type: 'cyberSamurai',
+    name: 'CYBER SAMURAI MECHA',
+    tag: 'BOSS VÒNG 13: THÀNH PHỐ CYBERPUNK',
+    icon: '🥷🤖',
+    bodyColor: '#1e1b4b',
+    accentColor: '#06b6d4',
+    bulletColor: '#ec4899',
+    eyeColor: '#22c55e',
+    radius: 48,
+    baseHp: 1480,
+    attackInterval: 2.7,
+    shootInterval: 1.8,
+    bulletCount: 12,
+    title: 'Chiến binh kiếm plasma lượng tử'
+  },
+  {
+    stage: 14,
+    type: 'pharaohMummy',
+    name: 'PHARAOH KIM TỰ THÁP',
+    tag: 'BOSS VÒNG 14: ĐỀN THỜ AI CẬP',
+    icon: '🧟‍♂️👑',
+    bodyColor: '#78350f',
+    accentColor: '#facc15',
+    bulletColor: '#eab308',
+    eyeColor: '#ef4444',
+    radius: 48,
+    baseHp: 1580,
+    attackInterval: 2.6,
+    shootInterval: 1.7,
+    bulletCount: 12,
+    title: 'Vua xác ướp lời nguyền nghìn năm'
+  },
+  {
+    stage: 15,
+    type: 'mushroomKing',
+    name: 'VUA NẤM PHÙ THỦY',
+    tag: 'BOSS VÒNG 15: XỨ SỞ NẤM THẦN TIÊN',
+    icon: '🍄🧙‍♂️',
+    bodyColor: '#6b21a8',
+    accentColor: '#f472b6',
+    bulletColor: '#e879f9',
+    eyeColor: '#fde047',
+    radius: 50,
+    baseHp: 1680,
+    attackInterval: 2.5,
+    shootInterval: 1.7,
+    bulletCount: 12,
+    title: 'Phù thủy bào tử khu rừng mộng ảo'
+  },
+  {
+    stage: 16,
+    type: 'pixelBoss',
+    name: 'TRÙM CUỐI PIXEL INVADER',
+    tag: 'BOSS VÒNG 16: THẾ GIỚI PIXEL',
+    icon: '👾👾',
+    bodyColor: '#047857',
+    accentColor: '#34d399',
+    bulletColor: '#10b981',
+    eyeColor: '#fef08a',
+    radius: 48,
+    baseHp: 1780,
+    attackInterval: 2.4,
+    shootInterval: 1.6,
+    bulletCount: 13,
+    title: 'Kẻ phá hủy ma trận điện tử 8-Bit'
+  },
+  {
+    stage: 17,
+    type: 'grimReaper',
+    name: 'TỬ THẦN LƯỠI HÁI',
+    tag: 'BOSS VÒNG 17: NGHĨA ĐỊA BÓNG MA',
+    icon: '💀🗡️',
+    bodyColor: '#09090b',
+    accentColor: '#a855f7',
+    bulletColor: '#c084fc',
+    eyeColor: '#ef4444',
+    radius: 50,
+    baseHp: 1900,
+    attackInterval: 2.3,
+    shootInterval: 1.5,
+    bulletCount: 14,
+    title: 'Sứ giả địa ngục đoạt hồn'
+  },
+  {
+    stage: 18,
+    type: 'goldenCatGod',
+    name: 'ĐẠI ĐẾ THẦN MÈO HOÀNG KIM',
+    tag: 'BOSS TỐI THƯỢNG VÒNG 18: THIÊN ĐƯỜNG',
+    icon: '👑🐱',
+    bodyColor: '#f59e0b',
+    accentColor: '#fbbf24',
+    bulletColor: '#38bdf8',
+    eyeColor: '#38bdf8',
+    radius: 56,
+    baseHp: 2100,
+    attackInterval: 2.2,
+    shootInterval: 1.4,
+    bulletCount: 16,
+    title: 'Vị thần tối cao bảo hộ muôn loài mèo'
   }
 ];
 
@@ -396,8 +706,8 @@ class Game {
     this.currentMap = STAGE_MAPS[0];
     this.bannerTimer = null;
     this.victoryAwarded = false;
-    this.stageBossSpawned = [false, false, false, false, false, false, false, false];
-    this.stageBossDefeated = [false, false, false, false, false, false, false, false];
+    this.stageBossSpawned = new Array(18).fill(false);
+    this.stageBossDefeated = new Array(18).fill(false);
     this.bossGateAlerted = false;
 
     // Settings Modal Elements
@@ -1239,8 +1549,8 @@ class Game {
     this.bullets = [];
     this.bossBullets = [];
     this.catShootTimer = 0;
-    this.stageBossSpawned = [false, false, false, false, false, false, false, false];
-    this.stageBossDefeated = [false, false, false, false, false, false, false, false];
+    this.stageBossSpawned = new Array(18).fill(false);
+    this.stageBossDefeated = new Array(18).fill(false);
     this.bossGateAlerted = false;
     if (this.bossHudEl) this.bossHudEl.classList.add('hidden');
   }
@@ -1340,9 +1650,9 @@ class Game {
   }
 
   checkVictoryCondition() {
-    const isStage8BossDead = this.stageBossDefeated && this.stageBossDefeated[7];
+    const isStage18BossDead = this.stageBossDefeated && this.stageBossDefeated[17];
     const bossAlive = this.bosses && this.bosses.some(b => b.hp > 0);
-    if (this.currentStage === 8 && isStage8BossDead && !bossAlive && this.score >= 6400 && !this.victoryAwarded) {
+    if (this.currentStage === 18 && isStage18BossDead && !bossAlive && this.score >= 14400 && !this.victoryAwarded) {
       this.victoryAwarded = true;
       this.stars += 1;
       localStorage.setItem('meo-ne-gai-stars', String(this.stars));
@@ -1884,7 +2194,7 @@ class Game {
 
     // Đánh dấu Đại Boss của vòng hiện tại đã bị tiêu diệt
     const curIdx = this.currentStage - 1;
-    if (curIdx >= 0 && curIdx < 8) {
+    if (curIdx >= 0 && curIdx < 18) {
       this.stageBossDefeated[curIdx] = true;
     }
 
@@ -1915,13 +2225,13 @@ class Game {
     // Nếu điểm hiện tại đã đạt hoặc vượt mốc qua vòng của stage này (ví dụ >= 800 ở stage 1)
     // thì chuyển sang stage tiếp theo sau 800ms
     const nextStageScore = this.currentStage * 800;
-    if (this.score >= nextStageScore && this.currentStage < 8) {
+    if (this.score >= nextStageScore && this.currentStage < 18) {
       setTimeout(() => {
-        if (this.gameState === 'playing' && this.currentStage < 8) {
+        if (this.gameState === 'playing' && this.currentStage < 18) {
           this.advanceToStage(this.currentStage + 1);
         }
       }, 800);
-    } else if (this.currentStage === 8 && this.score >= 6400) {
+    } else if (this.currentStage === 18 && this.score >= 14400) {
       setTimeout(() => {
         this.checkVictoryCondition();
       }, 800);
@@ -1936,10 +2246,10 @@ class Game {
     this.score = Math.floor(this.elapsedTime * 10) + this.bonusScore;
     this.scoreValEl.textContent = String(this.score).padStart(3, '0');
 
-    // Tiến trình 8 Vòng Thế giới:
-    // BẮT BUỘC: Đạt đủ điểm vòng (800, 1600, 2400...) VÀ PHẢI ĐÃ HẠ GỤC ĐẠI BOSS CỦA VÒNG ĐÓ!
+    // Tiến trình 18 Vòng Thế giới:
+    // BẮT BUỘC: Đạt đủ điểm vòng (800, 1600, 2400... 14400) VÀ PHẢI ĐÃ HẠ GỤC ĐẠI BOSS CỦA VÒNG ĐÓ!
     // Tuyệt đối không bao giờ nhảy cóc vòng, chỉ tiến tuần tự từng vòng: currentStage + 1
-    if (this.currentStage < 8) {
+    if (this.currentStage < 18) {
       const nextStageReq = this.currentStage * 800;
       const currentBossDefeated = this.stageBossDefeated && this.stageBossDefeated[this.currentStage - 1];
       const bossAlive = this.bosses && this.bosses.some(b => b.hp > 0);
@@ -1955,7 +2265,7 @@ class Game {
       }
     }
 
-    // Grand 8-Map Victory Check (At 6400+ points)
+    // Grand 18-Map Victory Check (At 14400+ points and Boss 18 defeated)
     this.checkVictoryCondition();
 
     // New High Score fanfare check
@@ -2533,8 +2843,8 @@ class Game {
 
       const isHit = b.hitFlash > 0;
 
-      // Drop Shadow (except for divine light beam)
-      if (b.type !== 'lightBeam') {
+      // Drop Shadow (except for divine light beam & celestial cat god)
+      if (b.type !== 'lightBeam' && b.type !== 'goldenCatGod') {
         ctx.fillStyle = 'rgba(18, 20, 35, 0.28)';
         ctx.beginPath();
         ctx.ellipse(0, b.radius + 14, b.radius * 1.05, 12, 0, 0, Math.PI * 2);
@@ -2995,6 +3305,578 @@ class Game {
         ctx.beginPath();
         ctx.arc(0, 0, 6, 0, Math.PI * 2);
         ctx.fill();
+
+      // --- 9. COWBOY BANDIT CHEETAH (Báo sa mạc cao bồi 🤠🐆) ---
+      } else if (b.type === 'cowboyCheetah') {
+        // Cheetah Head
+        ctx.fillStyle = isHit ? '#ffffff' : (b.isCharging ? '#dc2626' : '#d97706');
+        ctx.beginPath();
+        ctx.arc(0, 0, b.radius * 0.72, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Spots
+        ctx.fillStyle = '#451a03';
+        [[-15, -10], [15, -10], [-8, -18], [8, -18], [-18, 5], [18, 5]].forEach(([sx, sy]) => {
+          ctx.beginPath();
+          ctx.arc(sx, sy, 3.5, 0, Math.PI * 2);
+          ctx.fill();
+        });
+
+        // Cat Ears
+        for (let s of [-1, 1]) {
+          ctx.fillStyle = '#b45309';
+          ctx.beginPath();
+          ctx.moveTo(s * 15, -b.radius * 0.6);
+          ctx.lineTo(s * 32, -b.radius * 1.05);
+          ctx.lineTo(s * 28, -b.radius * 0.4);
+          ctx.closePath();
+          ctx.fill();
+        }
+
+        // Cowboy Hat (Brown leather with silver star)
+        ctx.fillStyle = '#78350f';
+        ctx.beginPath();
+        ctx.ellipse(0, -b.radius * 0.65, b.radius * 1.15, 12, 0, 0, Math.PI * 2);
+        ctx.fill();
+        drawRoundRect(ctx, -b.radius * 0.55, -b.radius * 1.25, b.radius * 1.1, 28, 8);
+        ctx.fillStyle = '#fef08a';
+        ctx.beginPath();
+        ctx.arc(0, -b.radius * 0.85, 4.5, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Red Outlaw Bandana Mask
+        ctx.fillStyle = '#dc2626';
+        ctx.beginPath();
+        ctx.moveTo(-b.radius * 0.65, 2);
+        ctx.lineTo(b.radius * 0.65, 2);
+        ctx.lineTo(0, b.radius * 0.85);
+        ctx.closePath();
+        ctx.fill();
+
+        // Eyes
+        [-12, 12].forEach(ex => {
+          ctx.fillStyle = b.isCharging ? '#ef4444' : '#fef08a';
+          ctx.beginPath();
+          ctx.arc(ex, -6, 6, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = '#000000';
+          ctx.beginPath();
+          ctx.arc(ex, -6, 2.5, 0, Math.PI * 2);
+          ctx.fill();
+        });
+
+        // Dual Revolvers in hands
+        for (let s of [-1, 1]) {
+          ctx.fillStyle = '#475569';
+          drawRoundRect(ctx, s * (b.radius + 2) - 8, 4, 16, 7, 2);
+          ctx.fillStyle = '#1e293b';
+          drawRoundRect(ctx, s * (b.radius + 8) - 4, 11, 8, 12, 2);
+        }
+
+      // --- 10. ABOMINABLE YETI KING (Yeti băng giá khổng lồ ❄️🦍) ---
+      } else if (b.type === 'yetiKing') {
+        // Snowy Fur Body
+        ctx.fillStyle = isHit ? '#ffffff' : (b.isCharging ? '#93c5fd' : '#f0f9ff');
+        ctx.beginPath();
+        ctx.arc(0, 0, b.radius * 0.88, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Fur Tufts around perimeter
+        ctx.fillStyle = '#e0f2fe';
+        for (let i = 0; i < 10; i++) {
+          const a = (Math.PI * 2 / 10) * i + Math.sin(b.animTime * 4) * 0.1;
+          const fx = Math.cos(a) * (b.radius * 0.85);
+          const fy = Math.sin(a) * (b.radius * 0.85);
+          ctx.beginPath();
+          ctx.arc(fx, fy, 14, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        // Frozen Ice Horns
+        ctx.fillStyle = '#0284c7';
+        for (let s of [-1, 1]) {
+          ctx.beginPath();
+          ctx.moveTo(s * 18, -b.radius * 0.6);
+          ctx.quadraticCurveTo(s * 36, -b.radius * 1.25, s * 45, -b.radius * 1.4);
+          ctx.quadraticCurveTo(s * 28, -b.radius * 0.9, s * 8, -b.radius * 0.7);
+          ctx.closePath();
+          ctx.fill();
+        }
+
+        // Face plate dark ice blue
+        ctx.fillStyle = '#0369a1';
+        drawRoundRect(ctx, -b.radius * 0.5, -b.radius * 0.35, b.radius, b.radius * 0.75, 16);
+
+        // Glowing Cyan Eyes
+        [-14, 14].forEach(ex => {
+          ctx.fillStyle = b.isCharging ? '#ef4444' : '#67e8f9';
+          ctx.shadowColor = '#67e8f9';
+          ctx.shadowBlur = 10;
+          ctx.beginPath();
+          ctx.arc(ex, -8, 7, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.shadowBlur = 0;
+        });
+
+        // Fangs
+        ctx.fillStyle = '#ffffff';
+        [-10, 0, 10].forEach(fx => {
+          ctx.beginPath();
+          ctx.moveTo(fx - 4, 8);
+          ctx.lineTo(fx + 4, 8);
+          ctx.lineTo(fx, 18);
+          ctx.closePath();
+          ctx.fill();
+        });
+
+      // --- 11. INFERNO MAGMA DRAGON (Rồng lửa dung nham chúa 🐲🔥) ---
+      } else if (b.type === 'magmaDragon') {
+        // Obsidian Scales Body
+        ctx.fillStyle = isHit ? '#ffffff' : (b.isCharging ? '#b91c1c' : '#7f1d1d');
+        ctx.beginPath();
+        ctx.arc(0, 0, b.radius * 0.82, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Fiery Spikes along head
+        ctx.fillStyle = '#f97316';
+        for (let i = -2; i <= 2; i++) {
+          const sa = (Math.PI / 4) * i - Math.PI / 2;
+          ctx.beginPath();
+          ctx.moveTo(Math.cos(sa - 0.2) * (b.radius * 0.75), Math.sin(sa - 0.2) * (b.radius * 0.75));
+          ctx.lineTo(Math.cos(sa) * (b.radius * 1.3), Math.sin(sa) * (b.radius * 1.3));
+          ctx.lineTo(Math.cos(sa + 0.2) * (b.radius * 0.75), Math.sin(sa + 0.2) * (b.radius * 0.75));
+          ctx.closePath();
+          ctx.fill();
+        }
+
+        // Dragon Horns
+        for (let s of [-1, 1]) {
+          ctx.fillStyle = '#450a0a';
+          ctx.beginPath();
+          ctx.moveTo(s * 20, -b.radius * 0.4);
+          ctx.quadraticCurveTo(s * 50, -b.radius * 1.3, s * 40, -b.radius * 1.55);
+          ctx.quadraticCurveTo(s * 25, -b.radius * 0.8, s * 8, -b.radius * 0.5);
+          ctx.closePath();
+          ctx.fill();
+        }
+
+        // Molten Maw Fire Breathing
+        ctx.fillStyle = '#450a0a';
+        ctx.beginPath();
+        ctx.arc(0, 6, b.radius * 0.52, 0, Math.PI);
+        ctx.fill();
+
+        // Molten Core inside mouth
+        const fireBreath = b.isCharging ? '#ef4444' : '#ea580c';
+        ctx.fillStyle = fireBreath;
+        ctx.shadowColor = fireBreath;
+        ctx.shadowBlur = 16;
+        ctx.beginPath();
+        ctx.arc(0, 10, b.radius * 0.32, 0, Math.PI);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+
+        // Fierce Golden Eyes
+        [-16, 16].forEach(ex => {
+          ctx.fillStyle = '#fde047';
+          ctx.beginPath();
+          ctx.ellipse(ex, -12, 9, 6, (ex < 0 ? -0.3 : 0.3), 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = '#000000';
+          ctx.beginPath();
+          ctx.ellipse(ex, -12, 3, 5, 0, 0, Math.PI * 2);
+          ctx.fill();
+        });
+
+      // --- 12. PRIMEVAL T-REX TITAN (Khủng long bạo chúa T-Rex 🦖🦴) ---
+      } else if (b.type === 'dinoTRex') {
+        // T-Rex Snout & Head
+        ctx.fillStyle = isHit ? '#ffffff' : (b.isCharging ? '#4d7c0f' : '#365314');
+        drawRoundRect(ctx, -b.radius * 0.8, -b.radius * 0.75, b.radius * 1.6, b.radius * 1.5, 20);
+
+        // Brow Ridges & Nostrils
+        ctx.fillStyle = '#1a2e05';
+        drawRoundRect(ctx, -b.radius * 0.7, -b.radius * 0.85, b.radius * 1.4, 16, 6);
+        ctx.beginPath();
+        ctx.arc(-14, 18, 5, 0, Math.PI * 2);
+        ctx.arc(14, 18, 5, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Prehistoric Scales
+        ctx.strokeStyle = '#65a30d';
+        ctx.lineWidth = 2.5;
+        [-12, 0, 12].forEach(sx => {
+          ctx.beginPath();
+          ctx.arc(sx, -15, 6, 0, Math.PI);
+          ctx.stroke();
+        });
+
+        // Sharp Serrated Fangs (Top & Bottom)
+        ctx.fillStyle = '#f8fafc';
+        for (let i = -24; i <= 24; i += 8) {
+          ctx.beginPath();
+          ctx.moveTo(i, 24); ctx.lineTo(i + 4, 34); ctx.lineTo(i + 8, 24); ctx.closePath();
+          ctx.fill();
+        }
+
+        // Amber Predator Eyes
+        [-18, 18].forEach(ex => {
+          ctx.fillStyle = b.isCharging ? '#ef4444' : '#f97316';
+          ctx.beginPath();
+          ctx.arc(ex, -14, 8, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = '#000000';
+          ctx.beginPath();
+          ctx.arc(ex, -14, 3, 0, Math.PI * 2);
+          ctx.fill();
+        });
+
+      // --- 13. CYBER SAMURAI MECHA (Cyborg Samurai Mecha 🥷🤖) ---
+      } else if (b.type === 'cyberSamurai') {
+        // Kabuto Helmet
+        ctx.fillStyle = isHit ? '#ffffff' : (b.isCharging ? '#581c87' : '#1e1b4b');
+        drawRoundRect(ctx, -b.radius * 0.8, -b.radius * 0.75, b.radius * 1.6, b.radius * 1.5, 14);
+
+        // Golden Crest V-Blade (Maedate)
+        ctx.fillStyle = '#facc15';
+        ctx.beginPath();
+        ctx.moveTo(0, -b.radius * 0.4);
+        ctx.lineTo(-b.radius * 0.85, -b.radius * 1.4);
+        ctx.lineTo(-b.radius * 0.35, -b.radius * 0.9);
+        ctx.lineTo(0, -b.radius * 1.15);
+        ctx.lineTo(b.radius * 0.35, -b.radius * 0.9);
+        ctx.lineTo(b.radius * 0.85, -b.radius * 1.4);
+        ctx.closePath();
+        ctx.fill();
+
+        // Neon Visor Screen
+        ctx.fillStyle = '#09090b';
+        drawRoundRect(ctx, -b.radius * 0.65, -16, b.radius * 1.3, 32, 6);
+
+        // Glowing Neon Smile / Eye Grid
+        const visGlow = b.isCharging ? '#ef4444' : '#22c55e';
+        ctx.strokeStyle = visGlow;
+        ctx.lineWidth = 3;
+        ctx.shadowColor = visGlow;
+        ctx.shadowBlur = 12;
+        ctx.beginPath();
+        ctx.moveTo(-20, -4); ctx.lineTo(-8, 6); ctx.lineTo(0, -4); ctx.lineTo(8, 6); ctx.lineTo(20, -4);
+        ctx.stroke();
+        ctx.shadowBlur = 0;
+
+        // Dual Neon Katana Blades
+        for (let s of [-1, 1]) {
+          ctx.strokeStyle = '#ec4899';
+          ctx.lineWidth = 4;
+          ctx.shadowColor = '#ec4899';
+          ctx.shadowBlur = 14;
+          ctx.beginPath();
+          ctx.moveTo(s * (b.radius + 6), 18);
+          ctx.lineTo(s * (b.radius + 16), -b.radius * 0.9);
+          ctx.stroke();
+          ctx.shadowBlur = 0;
+        }
+
+      // --- 14. AWAKENED PHARAOH MUMMY (Xác ướp Pharaoh kim tự tháp 🧟‍♂️👑) ---
+      } else if (b.type === 'pharaohMummy') {
+        // Nemes Headdress (Blue and Gold Stripes)
+        ctx.fillStyle = '#1e3a8a';
+        ctx.beginPath();
+        ctx.ellipse(0, 0, b.radius * 1.1, b.radius * 0.85, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Gold Stripes
+        ctx.strokeStyle = '#facc15';
+        ctx.lineWidth = 5;
+        for (let s of [-1, 1]) {
+          ctx.beginPath();
+          ctx.moveTo(s * 10, -b.radius * 0.7);
+          ctx.lineTo(s * (b.radius * 0.95), b.radius * 0.4);
+          ctx.stroke();
+        }
+
+        // Bandaged Face
+        ctx.fillStyle = isHit ? '#ffffff' : (b.isCharging ? '#991b1b' : '#78350f');
+        drawRoundRect(ctx, -b.radius * 0.6, -b.radius * 0.55, b.radius * 1.2, b.radius * 1.15, 16);
+
+        // Mummy Bandage Strips
+        ctx.strokeStyle = '#d97706';
+        ctx.lineWidth = 2.5;
+        [-16, -4, 8, 20].forEach(by => {
+          ctx.beginPath();
+          ctx.moveTo(-b.radius * 0.55, by);
+          ctx.lineTo(b.radius * 0.55, by + 4);
+          ctx.stroke();
+        });
+
+        // Cobra (Uraeus) on Forehead
+        ctx.fillStyle = '#ef4444';
+        ctx.beginPath();
+        ctx.arc(0, -b.radius * 0.85, 6, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Ruby Cursed Eyes
+        [-14, 14].forEach(ex => {
+          ctx.fillStyle = '#ef4444';
+          ctx.shadowColor = '#ef4444';
+          ctx.shadowBlur = 12;
+          ctx.beginPath();
+          ctx.arc(ex, -6, 6, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.shadowBlur = 0;
+        });
+
+        // Golden Beard (Osiris Beard)
+        ctx.fillStyle = '#eab308';
+        drawRoundRect(ctx, -6, b.radius * 0.6, 12, 22, 4);
+
+      // --- 15. SORCERER TOADSTOOL KING (Vua nấm phù thủy 🍄🧙‍♂️) ---
+      } else if (b.type === 'mushroomKing') {
+        // Enormous Sorcerer Mushroom Cap
+        ctx.fillStyle = isHit ? '#ffffff' : (b.isCharging ? '#a21caf' : '#6b21a8');
+        ctx.beginPath();
+        ctx.arc(0, -b.radius * 0.2, b.radius * 1.15, Math.PI, 0, false);
+        ctx.closePath();
+        ctx.fill();
+
+        // Luminescent Pink Spots
+        ctx.fillStyle = '#f472b6';
+        ctx.shadowColor = '#f472b6';
+        ctx.shadowBlur = 10;
+        [[-25, -b.radius * 0.6], [0, -b.radius * 0.8], [25, -b.radius * 0.6], [-12, -b.radius * 0.35], [12, -b.radius * 0.35]].forEach(([mx, my]) => {
+          ctx.beginPath();
+          ctx.arc(mx, my, 6, 0, Math.PI * 2);
+          ctx.fill();
+        });
+        ctx.shadowBlur = 0;
+
+        // Wizard Face & Long White Beard
+        ctx.fillStyle = '#fbcfe8';
+        ctx.beginPath();
+        ctx.arc(0, 10, b.radius * 0.5, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Beard
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.moveTo(-b.radius * 0.45, 12);
+        ctx.quadraticCurveTo(0, b.radius * 1.4, b.radius * 0.45, 12);
+        ctx.quadraticCurveTo(0, b.radius * 0.5, -b.radius * 0.45, 12);
+        ctx.fill();
+
+        // Magic Gown
+        ctx.fillStyle = '#3b0764';
+        drawRoundRect(ctx, -b.radius * 0.55, 18, b.radius * 1.1, 26, 6);
+
+        // Mystical Yellow Eyes
+        [-13, 13].forEach(ex => {
+          ctx.fillStyle = '#fde047';
+          ctx.beginPath();
+          ctx.arc(ex, 6, 5, 0, Math.PI * 2);
+          ctx.fill();
+        });
+
+        // Magic Crystal Orb floating
+        const orbAng = b.animTime * 3;
+        ctx.fillStyle = '#38bdf8';
+        ctx.shadowColor = '#38bdf8';
+        ctx.shadowBlur = 16;
+        ctx.beginPath();
+        ctx.arc(Math.cos(orbAng) * (b.radius + 14), Math.sin(orbAng) * (b.radius + 14), 8, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+
+      // --- 16. 8-BIT PIXEL INVADER (Trùm cuối Pixel Invader 8-Bit 👾👾) ---
+      } else if (b.type === 'pixelBoss') {
+        const pxSize = 8;
+        // 8-Bit Matrix Grid Shape
+        const pixelMatrix = [
+          [0, 0, 1, 0, 0, 0, 0, 1, 0, 0],
+          [0, 0, 0, 1, 0, 0, 1, 0, 0, 0],
+          [0, 0, 1, 1, 1, 1, 1, 1, 0, 0],
+          [0, 1, 1, 0, 1, 1, 0, 1, 1, 0],
+          [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+          [1, 0, 1, 1, 1, 1, 1, 1, 0, 1],
+          [1, 0, 1, 0, 0, 0, 0, 1, 0, 1],
+          [0, 0, 0, 1, 1, 1, 1, 0, 0, 0]
+        ];
+
+        const pColor = isHit ? '#ffffff' : (b.isCharging ? '#ef4444' : '#10b981');
+        ctx.fillStyle = pColor;
+        ctx.shadowColor = pColor;
+        ctx.shadowBlur = 10;
+        const startX = -(pixelMatrix[0].length * pxSize) / 2;
+        const startY = -(pixelMatrix.length * pxSize) / 2;
+
+        for (let r = 0; r < pixelMatrix.length; r++) {
+          for (let c = 0; c < pixelMatrix[r].length; c++) {
+            if (pixelMatrix[r][c] === 1) {
+              ctx.fillRect(startX + c * pxSize, startY + r * pxSize, pxSize - 1, pxSize - 1);
+            }
+          }
+        }
+        ctx.shadowBlur = 0;
+
+        // Blinking Glitch Pixels
+        ctx.fillStyle = '#fef08a';
+        ctx.fillRect(-14, -6, 6, 6);
+        ctx.fillRect(8, -6, 6, 6);
+
+      // --- 17. THE GRIM REAPER (Tử thần lưỡi hái 💀🗡️) ---
+      } else if (b.type === 'grimReaper') {
+        // Tattered Black Hood & Robe
+        ctx.fillStyle = isHit ? '#ffffff' : '#09090b';
+        ctx.beginPath();
+        ctx.moveTo(0, -b.radius * 1.1);
+        ctx.quadraticCurveTo(-b.radius * 0.9, -b.radius * 0.4, -b.radius * 0.75, b.radius * 0.9);
+        ctx.quadraticCurveTo(0, b.radius * 1.25, b.radius * 0.75, b.radius * 0.9);
+        ctx.quadraticCurveTo(b.radius * 0.9, -b.radius * 0.4, 0, -b.radius * 1.1);
+        ctx.closePath();
+        ctx.fill();
+
+        // Dark Shadow Hollow in Hood
+        ctx.fillStyle = '#000000';
+        ctx.beginPath();
+        ctx.ellipse(0, -b.radius * 0.15, b.radius * 0.45, b.radius * 0.55, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Bone Skull in darkness
+        ctx.fillStyle = '#e2e8f0';
+        ctx.beginPath();
+        ctx.arc(0, -b.radius * 0.18, 16, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Eye Sockets glowing Purple Flames
+        [-7, 7].forEach(ex => {
+          ctx.fillStyle = b.isCharging ? '#ef4444' : '#a855f7';
+          ctx.shadowColor = '#a855f7';
+          ctx.shadowBlur = 14;
+          ctx.beginPath();
+          ctx.arc(ex, -b.radius * 0.22, 4.5, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.shadowBlur = 0;
+        });
+
+        // Skull Teeth
+        ctx.fillStyle = '#000000';
+        for (let i = -6; i <= 6; i += 4) {
+          ctx.fillRect(i, -b.radius * 0.05, 2.5, 5);
+        }
+
+        // Colossal Grim Scythe
+        ctx.save();
+        ctx.translate(b.radius * 0.75, -b.radius * 0.2);
+        ctx.rotate(-0.4 + Math.sin(b.animTime * 5) * 0.25);
+        // Scythe Pole
+        ctx.fillStyle = '#78350f';
+        drawRoundRect(ctx, -3, -b.radius * 1.2, 6, b.radius * 2.3, 3);
+        // Scythe Crescent Blade
+        ctx.fillStyle = '#e2e8f0';
+        ctx.shadowColor = '#c084fc';
+        ctx.shadowBlur = 15;
+        ctx.beginPath();
+        ctx.moveTo(0, -b.radius * 1.2);
+        ctx.quadraticCurveTo(-b.radius * 1.3, -b.radius * 0.8, -b.radius * 1.5, 0);
+        ctx.quadraticCurveTo(-b.radius * 0.9, -b.radius * 0.6, 0, -b.radius * 0.9);
+        ctx.closePath();
+        ctx.fill();
+        ctx.shadowBlur = 0;
+        ctx.restore();
+
+      // --- 18. THE GOLDEN CAT GOD (Đại đế Thần Mèo Hoàng Kim 👑🐱) ---
+      } else if (b.type === 'goldenCatGod') {
+        const haloRays = 12;
+        const rot = b.animTime * 1.5;
+
+        // Divine Sun Rays
+        for (let i = 0; i < haloRays; i++) {
+          const a = (Math.PI * 2 / haloRays) * i + rot;
+          const len = b.radius * (1.2 + Math.sin(b.animTime * 6 + i) * 0.25);
+          ctx.strokeStyle = i % 2 === 0 ? '#fde047' : '#38bdf8';
+          ctx.lineWidth = i % 2 === 0 ? 4 : 2.5;
+          ctx.shadowColor = '#fbbf24';
+          ctx.shadowBlur = 18;
+          ctx.beginPath();
+          ctx.moveTo(0, 0);
+          ctx.lineTo(Math.cos(a) * len, Math.sin(a) * len);
+          ctx.stroke();
+        }
+        ctx.shadowBlur = 0;
+
+        // 4 Golden Celestial Wings
+        for (let s of [-1, 1]) {
+          const wingFlap = Math.sin(b.animTime * 6) * 0.2;
+          ctx.save();
+          ctx.rotate(s * wingFlap);
+          ctx.fillStyle = 'rgba(251, 191, 36, 0.85)';
+          ctx.beginPath();
+          ctx.moveTo(s * 15, -10);
+          ctx.quadraticCurveTo(s * (b.radius * 1.7), -b.radius * 0.9, s * (b.radius * 1.5), 15);
+          ctx.quadraticCurveTo(s * (b.radius * 0.8), 25, s * 15, 5);
+          ctx.fill();
+          ctx.restore();
+        }
+
+        // Golden Cat Head (Pure Bastet Titan)
+        ctx.fillStyle = isHit ? '#ffffff' : (b.isCharging ? '#ef4444' : '#f59e0b');
+        ctx.shadowColor = '#f59e0b';
+        ctx.shadowBlur = 24;
+        ctx.beginPath();
+        ctx.arc(0, 0, b.radius * 0.72, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+
+        // Golden Cat Ears
+        for (let s of [-1, 1]) {
+          ctx.fillStyle = '#b45309';
+          ctx.beginPath();
+          ctx.moveTo(s * 14, -b.radius * 0.55);
+          ctx.lineTo(s * 32, -b.radius * 1.15);
+          ctx.lineTo(s * 26, -b.radius * 0.35);
+          ctx.closePath();
+          ctx.fill();
+        }
+
+        // Ra's Sun Crown (Vương miện Thái Dương)
+        ctx.fillStyle = '#fbbf24';
+        ctx.beginPath();
+        ctx.arc(0, -b.radius * 0.75, 14, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = '#d97706';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.arc(0, -b.radius * 0.75, 14, 0, Math.PI * 2);
+        ctx.stroke();
+
+        // Celestial Blue Diamond Eyes
+        [-14, 14].forEach(ex => {
+          ctx.fillStyle = '#38bdf8';
+          ctx.shadowColor = '#38bdf8';
+          ctx.shadowBlur = 14;
+          ctx.beginPath();
+          ctx.ellipse(ex, -6, 7.5, 5, (ex < 0 ? -0.2 : 0.2), 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = '#ffffff';
+          ctx.beginPath();
+          ctx.arc(ex, -7, 2.5, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.shadowBlur = 0;
+        });
+
+        // Golden Cat Nose & Whisker lines
+        ctx.fillStyle = '#ef4444';
+        ctx.beginPath();
+        ctx.moveTo(-4, 6); ctx.lineTo(4, 6); ctx.lineTo(0, 10); ctx.closePath();
+        ctx.fill();
+
+        ctx.strokeStyle = '#78350f';
+        ctx.lineWidth = 2;
+        for (let s of [-1, 1]) {
+          ctx.beginPath();
+          ctx.moveTo(s * 8, 8); ctx.lineTo(s * 28, 6);
+          ctx.moveTo(s * 8, 11); ctx.lineTo(s * 26, 14);
+          ctx.stroke();
+        }
       }
 
       // Name & Health Bar directly above boss head
@@ -3304,6 +4186,226 @@ class Game {
         ctx.beginPath();
         ctx.arc(-4, -4, 2.5, 0, Math.PI * 2);
         ctx.fill();
+
+      } else if (type === 'tumbleweed') {
+        // --- 9. Sa mạc: Bụi cỏ lăn sa mạc gai góc ---
+        ctx.fillStyle = 'rgba(120, 53, 15, 0.2)';
+        ctx.beginPath();
+        ctx.arc(4, 5, s / 2, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.strokeStyle = '#d97706';
+        ctx.lineWidth = 2.5;
+        for (let i = 0; i < 8; i++) {
+          const a = (Math.PI / 4) * i;
+          ctx.beginPath();
+          ctx.arc(Math.cos(a) * (s / 4), Math.sin(a) * (s / 4), s / 3.5, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+        ctx.fillStyle = '#b45309';
+        ctx.beginPath();
+        ctx.arc(0, 0, 5, 0, Math.PI * 2);
+        ctx.fill();
+
+      } else if (type === 'iceShard') {
+        // --- 10. Băng tuyết: Khối tinh thể tuyết gai sắc nhọn ---
+        ctx.shadowColor = '#38bdf8';
+        ctx.shadowBlur = 12;
+
+        ctx.fillStyle = '#e0f2fe';
+        ctx.beginPath();
+        for (let i = 0; i < 6; i++) {
+          const a = (Math.PI / 3) * i;
+          const r = i % 2 === 0 ? s / 2 : s / 4;
+          const px = Math.cos(a) * r;
+          const py = Math.sin(a) * r;
+          if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+        }
+        ctx.closePath();
+        ctx.fill();
+
+        ctx.strokeStyle = '#0284c7';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.shadowBlur = 0;
+
+      } else if (type === 'magmaRock') {
+        // --- 11. Núi lửa: Khối nham thạch nóng chảy bốc khói ---
+        ctx.shadowColor = '#ea580c';
+        ctx.shadowBlur = 14;
+
+        ctx.fillStyle = '#1c1917';
+        drawRoundRect(ctx, -s / 2, -s / 2, s, s, 10);
+
+        ctx.strokeStyle = '#ea580c';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(-s / 3, -s / 4); ctx.lineTo(0, 0); ctx.lineTo(s / 3, -s / 3);
+        ctx.moveTo(-s / 4, s / 3); ctx.lineTo(0, 0); ctx.lineTo(s / 4, s / 3);
+        ctx.stroke();
+
+        ctx.fillStyle = '#fef08a';
+        ctx.beginPath();
+        ctx.arc(0, 0, 5, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+
+      } else if (type === 'dinoBone') {
+        // --- 12. Rừng Jura: Hóa thạch xương sọ gai ---
+        ctx.fillStyle = '#fef08a';
+        drawRoundRect(ctx, -s / 2, -s / 2.5, s, s / 1.4, 8);
+
+        // Eye Sockets
+        ctx.fillStyle = '#14532d';
+        ctx.beginPath();
+        ctx.arc(-s / 4, -4, 6, 0, Math.PI * 2);
+        ctx.arc(s / 4, -4, 6, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Teeth
+        ctx.fillStyle = '#ffffff';
+        for (let i = -s / 3; i <= s / 4; i += 7) {
+          ctx.beginPath();
+          ctx.moveTo(i, s / 4); ctx.lineTo(i + 3.5, s / 2.5); ctx.lineTo(i + 7, s / 4);
+          ctx.fill();
+        }
+
+      } else if (type === 'drone') {
+        // --- 13. Cyberpunk: Drone tuần tra laser neon ---
+        ctx.shadowColor = '#ec4899';
+        ctx.shadowBlur = 12;
+
+        ctx.fillStyle = '#09090b';
+        ctx.beginPath();
+        ctx.arc(0, 0, s / 3, 0, Math.PI * 2);
+        ctx.fill();
+
+        // 4 Rotors
+        ctx.strokeStyle = '#ec4899';
+        ctx.lineWidth = 2.5;
+        for (let i = 0; i < 4; i++) {
+          const a = (Math.PI / 2) * i + h.angle * 3;
+          const rx = Math.cos(a) * (s / 2 - 3);
+          const ry = Math.sin(a) * (s / 2 - 3);
+          ctx.beginPath();
+          ctx.moveTo(0, 0); ctx.lineTo(rx, ry);
+          ctx.stroke();
+          ctx.fillStyle = '#06b6d4';
+          ctx.beginPath();
+          ctx.arc(rx, ry, 3.5, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        // Camera Core
+        ctx.fillStyle = '#ef4444';
+        ctx.beginPath();
+        ctx.arc(0, 0, 4, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+
+      } else if (type === 'scarab') {
+        // --- 14. Đền thờ Ai Cập: Bọ hung ngọc bích vàng kim ---
+        ctx.shadowColor = '#eab308';
+        ctx.shadowBlur = 10;
+
+        ctx.fillStyle = '#059669';
+        ctx.beginPath();
+        ctx.ellipse(0, 0, s / 2.3, s / 2.8, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = '#eab308';
+        drawRoundRect(ctx, -s / 3, -s / 2.2, s / 1.5, 10, 4);
+
+        ctx.strokeStyle = '#facc15';
+        ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        ctx.moveTo(0, -s / 2.5); ctx.lineTo(0, s / 2.5);
+        ctx.stroke();
+        ctx.shadowBlur = 0;
+
+      } else if (type === 'magicSpore') {
+        // --- 15. Nấm thần tiên: Bào tử nấm ma thuật dạ quang ---
+        ctx.shadowColor = '#c084fc';
+        ctx.shadowBlur = 16;
+
+        ctx.fillStyle = '#581c87';
+        ctx.beginPath();
+        ctx.arc(0, 0, s / 2.5, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.fillStyle = '#f472b6';
+        for (let i = 0; i < 5; i++) {
+          const a = (Math.PI * 2 / 5) * i + h.angle * 2;
+          ctx.beginPath();
+          ctx.arc(Math.cos(a) * (s / 2.2), Math.sin(a) * (s / 2.2), 4, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.shadowBlur = 0;
+
+      } else if (type === 'pixelGlitch') {
+        // --- 16. Pixel 8-Bit: Khối pixel glitch ma trận ---
+        ctx.shadowColor = '#10b981';
+        ctx.shadowBlur = 12;
+
+        const pUnit = s / 4;
+        ctx.fillStyle = '#047857';
+        for (let r = -2; r < 2; r++) {
+          for (let c = -2; c < 2; c++) {
+            if ((r + c) % 2 === 0) {
+              ctx.fillRect(c * pUnit, r * pUnit, pUnit - 1, pUnit - 1);
+            }
+          }
+        }
+        ctx.fillStyle = '#6ee7b7';
+        ctx.fillRect(-pUnit / 2, -pUnit / 2, pUnit, pUnit);
+        ctx.shadowBlur = 0;
+
+      } else if (type === 'tombstone') {
+        // --- 17. Nghĩa địa: Bia mộ ma ám khắc cổ tự ---
+        ctx.fillStyle = 'rgba(0,0,0,0.5)';
+        drawRoundRect(ctx, -s / 2.3 + 4, -s / 2.2 + 5, s / 1.15, s / 1.1, 10);
+
+        ctx.fillStyle = '#334155';
+        drawRoundRect(ctx, -s / 2.3, -s / 2.2, s / 1.15, s / 1.1, 10);
+
+        // Purple Cross
+        ctx.strokeStyle = '#c084fc';
+        ctx.lineWidth = 3;
+        ctx.shadowColor = '#c084fc';
+        ctx.shadowBlur = 8;
+        ctx.beginPath();
+        ctx.moveTo(0, -s / 3); ctx.lineTo(0, s / 4);
+        ctx.moveTo(-s / 4, -s / 8); ctx.lineTo(s / 4, -s / 8);
+        ctx.stroke();
+        ctx.shadowBlur = 0;
+
+      } else if (type === 'celestialWheel') {
+        // --- 18. Thiên đường: Bánh xe thần thoại Ophanim vàng kim ---
+        ctx.shadowColor = '#fbbf24';
+        ctx.shadowBlur = 18;
+
+        ctx.strokeStyle = '#f59e0b';
+        ctx.lineWidth = 3.5;
+        ctx.beginPath();
+        ctx.arc(0, 0, s / 2.2, 0, Math.PI * 2);
+        ctx.stroke();
+
+        ctx.fillStyle = '#fef08a';
+        for (let i = 0; i < 4; i++) {
+          const a = (Math.PI / 2) * i + h.angle;
+          ctx.beginPath();
+          ctx.arc(Math.cos(a) * (s / 2.2), Math.sin(a) * (s / 2.2), 4, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        // Diamond Celestial Star
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath();
+        const rad = s / 3.5;
+        ctx.moveTo(0, -rad); ctx.lineTo(rad * 0.4, 0); ctx.lineTo(0, rad); ctx.lineTo(-rad * 0.4, 0);
+        ctx.closePath();
+        ctx.fill();
+        ctx.shadowBlur = 0;
 
       } else {
         // Fallback default
