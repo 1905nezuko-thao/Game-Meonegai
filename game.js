@@ -397,6 +397,8 @@ class Game {
     this.bannerTimer = null;
     this.victoryAwarded = false;
     this.stageBossSpawned = [false, false, false, false, false, false, false, false];
+    this.stageBossDefeated = [false, false, false, false, false, false, false, false];
+    this.bossGateAlerted = false;
 
     // Settings Modal Elements
     this.settingsBtn = document.getElementById('settingsBtn');
@@ -1238,6 +1240,8 @@ class Game {
     this.bossBullets = [];
     this.catShootTimer = 0;
     this.stageBossSpawned = [false, false, false, false, false, false, false, false];
+    this.stageBossDefeated = [false, false, false, false, false, false, false, false];
+    this.bossGateAlerted = false;
     if (this.bossHudEl) this.bossHudEl.classList.add('hidden');
   }
 
@@ -1336,7 +1340,9 @@ class Game {
   }
 
   checkVictoryCondition() {
-    if (this.score >= 6400 && !this.victoryAwarded) {
+    const isStage8BossDead = this.stageBossDefeated && this.stageBossDefeated[7];
+    const bossAlive = this.bosses && this.bosses.some(b => b.hp > 0);
+    if (this.currentStage === 8 && isStage8BossDead && !bossAlive && this.score >= 6400 && !this.victoryAwarded) {
       this.victoryAwarded = true;
       this.stars += 1;
       localStorage.setItem('meo-ne-gai-stars', String(this.stars));
@@ -1547,13 +1553,13 @@ class Game {
   applyPowerup(type) {
     this.vibrate(18);
     if (type === 'fish') {
-      this.bonusScore += 50;
+      this.bonusScore += 15;
       sound.playPickup('fish');
-      this.addFloatingText('+50 Cá hồi!', this.cat.x, this.cat.y - 25, '#fbbf24');
+      this.addFloatingText('+15 Cá hồi!', this.cat.x, this.cat.y - 25, '#fbbf24');
     } else if (type === 'pate') {
-      this.bonusScore += 100;
+      this.bonusScore += 30;
       sound.playPickup('pate');
-      this.addFloatingText('+100 Pate thơm ngon!', this.cat.x, this.cat.y - 25, '#f43f5e');
+      this.addFloatingText('+30 Pate thơm ngon!', this.cat.x, this.cat.y - 25, '#f43f5e');
     } else if (type === 'shield') {
       this.cat.hasShield = true;
       sound.playPowerup('shield');
@@ -1875,7 +1881,14 @@ class Game {
     this.vibrate([80, 40, 80, 40, 150]);
     this.shakeScreen(0.6, 24);
     this.bossDefeated = true;
-    const bonus = 1000 * (this.bosses.length || 1);
+
+    // Đánh dấu Đại Boss của vòng hiện tại đã bị tiêu diệt
+    const curIdx = this.currentStage - 1;
+    if (curIdx >= 0 && curIdx < 8) {
+      this.stageBossDefeated[curIdx] = true;
+    }
+
+    const bonus = 150;
     this.bonusScore += bonus;
     this.addFloatingText(`🏆 TOÀN THẮNG ĐẠI BOSS! +${bonus} ĐIỂM!`, CANVAS_SIZE / 2, 220, '#fbbf24');
 
@@ -1898,6 +1911,21 @@ class Game {
 
     this.pickups.push({ type: 'shield', x: CANVAS_SIZE / 2, y: 150, radius: 18, life: 18, bobPhase: 2 });
     this.bossBullets = [];
+
+    // Nếu điểm hiện tại đã đạt hoặc vượt mốc qua vòng của stage này (ví dụ >= 800 ở stage 1)
+    // thì chuyển sang stage tiếp theo sau 800ms
+    const nextStageScore = this.currentStage * 800;
+    if (this.score >= nextStageScore && this.currentStage < 8) {
+      setTimeout(() => {
+        if (this.gameState === 'playing' && this.currentStage < 8) {
+          this.advanceToStage(this.currentStage + 1);
+        }
+      }, 800);
+    } else if (this.currentStage === 8 && this.score >= 6400) {
+      setTimeout(() => {
+        this.checkVictoryCondition();
+      }, 800);
+    }
   }
 
   // --- Main Update Loop ---
@@ -1908,10 +1936,23 @@ class Game {
     this.score = Math.floor(this.elapsedTime * 10) + this.bonusScore;
     this.scoreValEl.textContent = String(this.score).padStart(3, '0');
 
-    // 8-Stage Map Progression (Every 800 pts advances to next map)
-    const targetStage = Math.min(8, Math.floor(this.score / 800) + 1);
-    if (targetStage !== this.currentStage) {
-      this.advanceToStage(targetStage);
+    // Tiến trình 8 Vòng Thế giới:
+    // BẮT BUỘC: Đạt đủ điểm vòng (800, 1600, 2400...) VÀ PHẢI ĐÃ HẠ GỤC ĐẠI BOSS CỦA VÒNG ĐÓ!
+    // Tuyệt đối không bao giờ nhảy cóc vòng, chỉ tiến tuần tự từng vòng: currentStage + 1
+    if (this.currentStage < 8) {
+      const nextStageReq = this.currentStage * 800;
+      const currentBossDefeated = this.stageBossDefeated && this.stageBossDefeated[this.currentStage - 1];
+      const bossAlive = this.bosses && this.bosses.some(b => b.hp > 0);
+
+      if (this.score >= nextStageReq) {
+        if (currentBossDefeated && !bossAlive) {
+          this.advanceToStage(this.currentStage + 1);
+        } else if (bossAlive && !this.bossGateAlerted) {
+          this.bossGateAlerted = true;
+          this.addFloatingText('⚠️ HÃY TIÊU DIỆT ĐẠI BOSS ĐỂ MỞ CỔNG THẾ GIỚI TIẾP THEO!', CANVAS_SIZE / 2, 175, '#ef4444');
+          setTimeout(() => { this.bossGateAlerted = false; }, 3500);
+        }
+      }
     }
 
     // Grand 8-Map Victory Check (At 6400+ points)
@@ -2137,9 +2178,9 @@ class Game {
       const dangerDistSq = (this.cat.radius + 15) ** 2;
       if (distSq < dangerDistSq && distSq > this.cat.radius ** 2 && !h.nearMissed) {
         h.nearMissed = true;
-        this.bonusScore += 15;
+        this.bonusScore += 3;
         sound.playNearMiss();
-        this.addFloatingText('NÉ SÁT! +15', this.cat.x, this.cat.y - 30, '#38bdf8');
+        this.addFloatingText('NÉ SÁT! +3', this.cat.x, this.cat.y - 30, '#38bdf8');
         setTimeout(() => { h.nearMissed = false; }, 1800);
       }
 
